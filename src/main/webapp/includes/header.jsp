@@ -1,36 +1,46 @@
-<!doctype html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Practicas</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Teachers:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
+
+<!-- title -->
+<title>Fruitkha</title>
+
+<!-- favicon -->
+<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
+<!-- google font -->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+<!-- fontawesome -->
+<link rel="stylesheet" href="assets/css/all.min.css">
+<!-- bootstrap -->
+<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+<!-- owl carousel -->
+<link rel="stylesheet" href="assets/css/owl.carousel.css">
+<!-- magnific popup -->
+<link rel="stylesheet" href="assets/css/magnific-popup.css">
+<!-- animate css -->
+<link rel="stylesheet" href="assets/css/animate.css">
+<!-- mean menu css -->
+<link rel="stylesheet" href="assets/css/meanmenu.min.css">
+<!-- main style -->
+<link rel="stylesheet" href="assets/css/main.css">
+<!-- responsive -->
+<link rel="stylesheet" href="assets/css/responsive.css">
+
 </head>
-<%
-    HttpSession currentSession = request.getSession();
-    String role = "anonymous";
-    String username_init ="";
-    int user_id=0;
-    if (currentSession.getAttribute("role") != null) {
-        role = currentSession.getAttribute("role").toString();
-    }
-    if (currentSession.getAttribute("username") != null) {
-        username_init = currentSession.getAttribute("username").toString();
-    }
-    if (currentSession.getAttribute("id_user") != null) {
-        user_id=Integer.parseInt(currentSession.getAttribute("id_user").toString());
-    }
-%>
+<body>
+
 <div class="loader">
     <div class="loader-inner">
         <div class="circle"></div>
     </div>
 </div>
-<!--PreLoader Ends-->
+<!-- PreLoader Ends -->
 
 <!-- header -->
 <div class="top-header-area" id="sticker">
@@ -52,13 +62,13 @@
                             <li><a href="index.jsp">Home</a></li>
                             <li><a href="#">Registrar</a>
                                 <ul class="sub-menu">
-                                    <li><a href="registrarUsuario.jsp">Usuario</a></li>
-                                    <li><a href="registrarContenidoNutricional.jsp">Contenido Nutricional</a></li>
-                                    <li><a href="registrarAlimento.jsp">Alimento</a></li>
-                                    <li><a href="registrarCategoria.jsp">Categoria</a></li>
-                                    <li><a href="registrarMinerales.jsp">Minerales</a></li>
-                                    <li><a href="registrarVitaminas.jsp">Vitaminas</a></li>
-                                    <li><a href="registrarConsumo.jsp">Consumo de Alimentos</a></li>
+                                    <li><a href="RegistrarUsuario.jsp">Usuario</a></li>
+                                    <li><a href="RegistrarContenidoNutricional.jsp">Contenido Nutricional</a></li>
+                                    <li><a href="RegistrarAlimento.jsp">Alimento</a></li>
+                                    <li><a href="RegistrarCategoria.jsp">Categoria</a></li>
+                                    <li><a href="RegistrarMinerales.jsp">Minerales</a></li>
+                                    <li><a href="RegistrarVitaminas.jsp">Vitaminas</a></li>
+                                    <li><a href="RegistrarConsumoAlimentos.jsp">Consumo de Alimentos</a></li>
                                 </ul>
                             </li>
                             <li><a href="shop.jsp">Alimentos</a></li>
@@ -81,6 +91,5 @@
         </div>
     </div>
 </div>
-<!-- end header -->
 
-<!-- search area -->
+

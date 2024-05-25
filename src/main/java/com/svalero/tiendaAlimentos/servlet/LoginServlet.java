@@ -19,19 +19,19 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
-        String nombreUsuario = request.getParameter("nombreUsuario");
+        String nombre_usuario = request.getParameter("nombre_usuario");
         String contrasena = request.getParameter("contrasena");
         try {
             Database.connect();
             Usuarios usuario = Database.jdbi.withExtension(UsuarioDao.class,
-                    dao -> dao.getUsuario(nombreUsuario, contrasena));
+                    dao -> dao.getUsuario(nombre_usuario, contrasena));
             //Si llego aqui suponemos que es el usuario correcto, entonces...creo la sesion,
             //pero antes tengo que pregunatar si el usuario existe
             if (usuario != null) {
                 HttpSession session = request.getSession();
                 //la sesion se puede recuperar desde cualquier sitio,
                 // y le añadimos atributos: username, role, id_user
-                session.setAttribute("nombreUsuario", usuario.getNombreUsuario());
+                session.setAttribute("nombre_usuario", usuario.getNombre_usuario());
                 session.setAttribute("rol", usuario.getRol());
                 session.setAttribute("id", usuario.getId());
                 //es decir guardo informacion en la sesion y esta la puedo recuperar en cualquier parte de la web

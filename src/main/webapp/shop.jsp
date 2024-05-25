@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="includes/header.jsp"%>
 <%@ page import="com.svalero.tiendaAlimentos.dao.AlimentoDao" %>
 <%@ page import="com.svalero.tiendaAlimentos.domain.Alimentos" %>
@@ -13,35 +14,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
-
-	<!-- title -->
 	<title>Shop</title>
-
-	<!-- favicon -->
-	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
-	<!-- google font -->
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
-	<!-- fontawesome -->
-	<link rel="stylesheet" href="assets/css/all.min.css">
-	<!-- bootstrap -->
-	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-	<!-- owl carousel -->
-	<link rel="stylesheet" href="assets/css/owl.carousel.css">
-	<!-- magnific popup -->
-	<link rel="stylesheet" href="assets/css/magnific-popup.css">
-	<!-- animate css -->
-	<link rel="stylesheet" href="assets/css/animate.css">
-	<!-- mean menu css -->
-	<link rel="stylesheet" href="assets/css/meanmenu.min.css">
-	<!-- main style -->
-	<link rel="stylesheet" href="assets/css/main.css">
-	<!-- responsive -->
-	<link rel="stylesheet" href="assets/css/responsive.css">
 
 	<style>
 		.product-buttons a {
@@ -98,32 +71,31 @@
 				</div>
 			</div>
 		</div>
-		<%
-		Database.connect();
-		List<Alimentos> alimentos = Database.jdbi.withExtension(AlimentoDao.class, dao -> dao.getAllAlimentos());
-		for (Alimentos alimento : alimentos) {
-		%>
+
 		<div class="row product-lists">
-			<div class="col-lg-4 col-md-6 text-center ${alimento.categoria}">
+			<%
+				Database.connect();
+				List<Alimentos> alimentos = Database.jdbi.withExtension(AlimentoDao.class, dao -> dao.getAllAlimentos());
+				for (Alimentos alimento : alimentos) {
+			%>
+			<div class="col-lg-4 col-md-6 text-center">
 				<div class="single-product-item">
 					<div class="product-image">
-						<img src="assets/img/products/${alimento.imagen}" alt="">
+						<img src="assets/img/products/" alt="">
 					</div>
-					<h3>nombre</h3>
-					<p class="product-price"><span>Per Kg</span> ${alimento.precio} $</p>
+					<h3><%= alimento.getNombre() %></h3>
+					<p class="product-price"><span><%= alimento.getPrecio() %></span> $</p>
 					<div class="product-buttons">
-						<a href="#" class="btn-delete" onclick="deleteProduct(1)">Borrar</a>
-						<!-- Replace '1' with the actual product ID -->
+						<a href="#" class="btn-delete" onclick="deleteProduct(1)">Eliminar</a>
 						<a href="#" class="btn-edit">Editar</a>
-						<a href="#" class="btn-remove">Eliminar</a>
 						<a href="single-product.jsp" class="btn-view">Ver</a>
 					</div>
 				</div>
 			</div>
+			<%
+				}
+			%>
 		</div>
-		<%
-		}
-		%>
 		<div class="row">
 			<div class="col-lg-12 text-center">
 				<div class="pagination-wrap">

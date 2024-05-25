@@ -23,26 +23,32 @@
         <div class="row">
             <div class="col-lg-8 mb-5 mb-lg-0">
                 <div class="form-title">
-                    <h2>Registrar Vitamina</h2>
+                    <h2>Registrar Consumo de Alimentos</h2>
                 </div>
                 <div class="contact-form">
-                    <form class="row g-3 needs-validation" method="post" action="registrar-vitamina">
+                    <form class="row g-3 needs-validation" method="post" action="registrar-consumo-alimentos">
                         <div class="col-md-6">
-                            <label for="nombre" class="form-label">Nombre de la Vitamina</label>
-                            <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Ingrese el nombre de la vitamina" required>
+                            <label for="usuario_id" class="form-label">ID de Usuario</label>
+                            <input type="number" name="usuario_id" class="form-control" id="usuario_id" placeholder="Ingrese el ID de usuario" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="cantidad" class="form-label">Cantidad</label>
-                            <input type="number" step="0.01" name="cantidad" class="form-control" id="cantidad" placeholder="Ingrese la cantidad" required>
+                            <label for="alimento_id" class="form-label">ID de Alimento</label>
+                            <input type="number" name="alimento_id" class="form-control" id="alimento_id" placeholder="Ingrese el ID del alimento" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="cantidad_consumida" class="form-label">Cantidad Consumida</label>
+                            <input type="number" step="0.01" name="cantidad_consumida" class="form-control" id="cantidad_consumida" placeholder="Ingrese la cantidad consumida" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="fecha_consumo" class="form-label">Fecha de Consumo</label>
+                            <input type="date" name="fecha_consumo" class="form-control" id="fecha_consumo" required>
                         </div>
                         <div class="col-12">
-                            <button class="btn btn-primary" type="submit">Registrar Vitamina</button>
+                            <button class="btn btn-primary" type="submit">Registrar Consumo</button>
                         </div>
                     </form>
                 </div>
             </div>
-
-
 
 
             <div class="col-lg-4">

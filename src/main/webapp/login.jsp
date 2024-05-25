@@ -1,38 +1,8 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="includes/header.jsp"%>
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
 
-    <!-- title -->
-    <title>Shop</title>
-
-    <!-- favicon -->
-    <link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
-    <!-- google font -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
-    <!-- fontawesome -->
-    <link rel="stylesheet" href="assets/css/all.min.css">
-    <!-- bootstrap -->
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <!-- owl carousel -->
-    <link rel="stylesheet" href="assets/css/owl.carousel.css">
-    <!-- magnific popup -->
-    <link rel="stylesheet" href="assets/css/magnific-popup.css">
-    <!-- animate css -->
-    <link rel="stylesheet" href="assets/css/animate.css">
-    <!-- mean menu css -->
-    <link rel="stylesheet" href="assets/css/meanmenu.min.css">
-    <!-- main style -->
-    <link rel="stylesheet" href="assets/css/main.css">
-    <!-- responsive -->
-    <link rel="stylesheet" href="assets/css/responsive.css">
-
-</head>
 <body>
 
         <div class="breadcrumb-section breadcrumb-bg">
@@ -54,19 +24,19 @@
                     <div class="col-lg-8 mb-5 mb-lg-0">
                         <div class="form-title">
                             <h2>Cuenta</h2>
-                            <p>Por favor introduce tu nombre de usuario y contrasena para iniciar sesion.</p>
+                            <p>Por favor introduce tu nombre de usuario y contraseña para iniciar sesion.</p>
                         </div>
                         <!-- Formulario de inicio de sesión -->
                         <div id="form_status"></div>
                         <div class="contact-form">
                             <form>
                                 <div class="form-floating">
-                                    <input type="text" name="username" class="form-control" id="floatingInput" placeholder="User">
                                     <label for="floatingInput">Usuario</label>
+                                    <input type="text" name="username" class="form-control" id="floatingInput" placeholder="Usuario">
                                 </div>
                                 <div class="form-floating">
-                                    <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="password">
-                                    <label for="floatingPassword">Contrasena</label>
+                                    <label for="floatingPassword">Contraseña</label>
+                                    <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Contraseña">
                                 </div>
                                 <button class="btn btn-danger w-100 py-2" type="submit">Iniciar</button>
                                 <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
