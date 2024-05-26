@@ -18,7 +18,7 @@ public interface CategoriaDao {
     Categorias getCategoriaById(long id);
 
     @SqlUpdate("INSERT INTO Categorias (nombre) VALUES (:nombre)")
-    void insertCategoria(Categorias categoria);
+    int insertCategoria(String categoria);
 
     @SqlUpdate("UPDATE Categorias SET nombre = :nombre WHERE id = :id")
     int updateCategoria(Categorias categoria);

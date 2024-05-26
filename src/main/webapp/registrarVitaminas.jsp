@@ -10,8 +10,8 @@
         <div class="row">
             <div class="col-lg-8 offset-lg-2 text-center">
                 <div class="breadcrumb-text">
-                    <p>Como Familia</p>
-                    <h1>Inicia Sesion</h1>
+                    <p>Con mas salud</p>
+                    <h1>Vitaminas</h1>
                 </div>
             </div>
         </div>

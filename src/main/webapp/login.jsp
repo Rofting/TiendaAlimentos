@@ -32,15 +32,15 @@
                             <form>
                                 <div class="form-floating">
                                     <label for="floatingInput">Usuario</label>
-                                    <input type="text" name="username" class="form-control" id="floatingInput" placeholder="Usuario">
+                                    <input type="text" name="nombre_usuario" class="form-control" id="floatingInput" placeholder="Usuario">
                                 </div>
                                 <div class="form-floating">
                                     <label for="floatingPassword">Contraseña</label>
-                                    <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Contraseña">
+                                    <input type="password" name="contrasena" class="form-control" id="floatingPassword" placeholder="Contraseña">
                                 </div>
                                 <button class="btn btn-danger w-100 py-2" type="submit">Iniciar</button>
                                 <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
-                                    <a href="registrarUsuario.jsp" class="btn btn-secondary w-100 py-2" type="button">Registrate</a>
+                                    <a href="RegistrarUsuario.jsp" class="btn btn-secondary w-100 py-2" type="button">Registrate</a>
                                 </div>
                             </form>
                         </div>

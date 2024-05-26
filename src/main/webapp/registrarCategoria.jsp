@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-lg-8 offset-lg-2 text-center">
                 <div class="breadcrumb-text">
-                    <p>Como Familia</p>
+                    <p>Mas de nosotros</p>
                     <h1>Nueva Categoría</h1>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                     <h2>Crear Nueva Categoría</h2>
                 </div>
                 <div class="contact-form">
-                    <form class="row g-3 needs-validation" method="post" action="crear-categoria">
+                    <form class="row g-3 needs-validation" method="post" action="EditarCategoria">
                         <div class="col-md-6">
                             <label for="nombre" class="form-label">Nombre de la Categoría</label>
                             <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Ingrese el nombre de la categoría" required>
