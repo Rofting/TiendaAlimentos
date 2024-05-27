@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ContenidoNutricional {
     private int id;
-    private double calorias;
-    private double proteinas;
-    private double carbohidratos;
-    private double grasas;
+    private float calorias;
+    private float proteinas;
+    private float carbohidratos;
+    private float grasas;
 }

@@ -23,7 +23,7 @@ public interface UsuarioDao {
     Usuarios getUsuario(String nombre_usuario, String contrasena);
 
     @SqlUpdate("INSERT INTO usuarios (nombre, apellido, nombre_usuario, contrasena, email, genero, nivel_actividad, objetivo_salud, preferencias_alimenticias, altura, peso, fecha_nacimiento, rol) VALUES (:nombre, :apellido, :nombre_usuario, SHA1(:contrasena), :email, :genero, :nivel_actividad, :objetivo_salud, :preferencias_alimenticias, :altura, :peso, :fecha_nacimiento, :rol)")
-    void insertUsuario(String nombre, String apellido, String nombre_usuario, String contrasena, String email, String genero, String nivel_actividad, String objetivo_salud, String preferencias_alimenticias, double altura, double peso, Date fecha_nacimiento, String rol);
+    int insertUsuario(String nombre, String apellido, String nombre_usuario, String contrasena, String email, String genero, String nivel_actividad, String objetivo_salud, String preferencias_alimenticias, double altura, double peso, Date fecha_nacimiento, String rol);
 
     @SqlUpdate("INSERT INTO usuarios (nombre, apellido, nombre_usuario, contrasena, email, genero, nivel_actividad, objetivo_salud, preferencias_alimenticias, altura, peso, fecha_nacimiento, rol) VALUES (:nombre, :apellido, :nombre_usuario, SHA1(:contrasena), :email, :genero, :nivel_actividad, :objetivo_salud, :preferencias_alimenticias, :altura, :peso, :fecha_nacimiento, :rol)")
     int insertUsuarios(String nombre, String apellido, String nombre_usuario, String contrasena, String email, String genero, String nivel_actividad, String objetivo_salud, String preferencias_alimenticias, double altura, double peso, Date fecha_nacimiento, String rol);

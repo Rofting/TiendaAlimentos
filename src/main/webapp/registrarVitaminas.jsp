@@ -26,7 +26,7 @@
                     <h2>Registrar Vitamina</h2>
                 </div>
                 <div class="contact-form">
-                    <form class="row g-3 needs-validation" method="post" action="registrar-vitamina">
+                    <form class="row g-3 needs-validation" method="post" action="EditarVitamina">
                         <div class="col-md-6">
                             <label for="nombre" class="form-label">Nombre de la Vitamina</label>
                             <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Ingrese el nombre de la vitamina" required>

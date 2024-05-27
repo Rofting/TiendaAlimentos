@@ -1,5 +1,36 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@include file="includes/header.jsp"%>
+<script>
+  $(document).ready(function () {
+    $("#edit-button").click(function (event) {
+      event.preventDefault();
+      const form = $("#edit-form")[0];
+      const data = new FormData(form);
+
+      $("#edit-button").prop("disabled", true);
+
+      $.ajax({
+        type: "POST",
+        enctype: "multipart/form-data",
+        url: "EditarAlimento",
+        data: data,
+        processData: false,
+        contentType: false,
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+          $("#result").html(data);
+          $("#name").value("");
+          $("#edit-button").prop("disabled", false);
+        },
+        error: function (error) {
+          $("#result").html(error.responseText);
+          $("#edit-button").prop("disabled", false);
+        }
+      });
+    });
+  });
+</script>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -26,7 +57,7 @@
           <h2>Agregar Alimento</h2>
         </div>
         <div class="contact-form">
-          <form class="row g-3 needs-validation" method="post" action="agregar-alimento">
+          <form class="row g-3 needs-validation" method="post" action="EditarAlimento">
             <div class="col-md-6">
               <label for="nombre" class="form-label">Nombre del Alimento</label>
               <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Ingrese el nombre del alimento" required>

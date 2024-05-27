@@ -1,5 +1,6 @@
 package com.svalero.tiendaAlimentos.dao;
 
+import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
@@ -19,10 +20,10 @@ public interface ContenidoNutricionalDao {
     ContenidoNutricional getContenidoNutricionalById(long id);
 
     @SqlUpdate("INSERT INTO contenido_nutricional (calorias, proteinas, carbohidratos, grasas) VALUES (:calorias, :proteinas, :carbohidratos, :grasas)")
-    void insertContenidoNutricional(ContenidoNutricional contenido_nutricional);
+    int insertContenidoNutricional(@Bind("calorias") float calorias,@Bind("proteinas") float proteinas,@Bind("carbohidratos") float carbohidratos,@Bind("grasas") float grasas);
 
     @SqlUpdate("UPDATE Contenido_Nutricional SET calorias = :calorias, proteinas = :proteinas, carbohidratos = :carbohidratos, grasas = :grasas WHERE id = :id")
-    int updateContenidoNutricional(ContenidoNutricional contenido_nutricional);
+    int updateContenidoNutricional(@Bind("calorias") float calorias,@Bind("proteinas") float proteinas,@Bind("carbohidratos") float carbohidratos,@Bind("grasas") float grasas,@Bind("id") long id);
 
     @SqlUpdate("DELETE FROM Contenido_Nutricional WHERE id = :id")
     int deleteContenidoNutricional(long id);

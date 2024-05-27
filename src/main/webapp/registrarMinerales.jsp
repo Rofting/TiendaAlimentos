@@ -26,7 +26,7 @@
                     <h2>Registrar Mineral</h2>
                 </div>
                 <div class="contact-form">
-                    <form class="row g-3 needs-validation" method="post" action="registrar-mineral">
+                    <form class="row g-3 needs-validation" method="post" action="EditarMineral">
                         <div class="col-md-6">
                             <label for="nombre" class="form-label">Nombre del Mineral</label>
                             <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Ingrese el nombre del mineral" required>
