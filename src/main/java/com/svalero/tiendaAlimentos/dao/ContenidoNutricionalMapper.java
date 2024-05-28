@@ -9,9 +9,9 @@ public class ContenidoNutricionalMapper implements RowMapper<ContenidoNutriciona
     @Override
     public ContenidoNutricional map(ResultSet rs, StatementContext ctx) throws SQLException {
         return new ContenidoNutricional(rs.getInt("id"),
-                rs.getDouble("calorias"),
-                rs.getDouble("proteinas"),
-                rs.getDouble("carbohidratos"),
-                rs.getDouble("grasas"));
+                rs.getFloat("calorias"),
+                rs.getFloat("proteinas"),
+                rs.getFloat("carbohidratos"),
+                rs.getFloat("grasas"));
     }
 }

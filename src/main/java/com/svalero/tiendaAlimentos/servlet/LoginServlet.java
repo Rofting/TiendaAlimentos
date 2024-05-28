@@ -1,8 +1,11 @@
 package com.svalero.tiendaAlimentos.servlet;
-
+import com.svalero.tiendaAlimentos.util.Constants;
 import com.svalero.tiendaAlimentos.dao.Database;
 import com.svalero.tiendaAlimentos.dao.UsuarioDao;
 import com.svalero.tiendaAlimentos.domain.Usuarios;
+import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.sqlobject.SqlObjectPlugin;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,8 +16,24 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 @WebServlet("/login")
-
 public class LoginServlet extends HttpServlet {
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        if (Database.jdbi == null) {
+            try {
+                Class.forName(Constants.DRIVER);
+                Database.jdbi = Jdbi.create(Constants.CONNECTION_STRING, Constants.USERNAME, Constants.PASSWORD);
+                Database.jdbi.installPlugin(new SqlObjectPlugin()); // Registrar el plugin
+            } catch (ClassNotFoundException e) {
+                throw new ServletException("Database driver not found", e);
+            } catch (Exception e) {
+                throw new ServletException("Database connection initialization failed", e);
+            }
+        }
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
@@ -49,9 +68,9 @@ public class LoginServlet extends HttpServlet {
         } catch (SQLException sqle) {
             sqle.printStackTrace();
             response.getWriter().println("<div class='alert alert-danger' role='alert'>" +
-                    "Error conecting to the data base</div>");
+                    "Error connecting to the database</div>");
         }
-
     }
 }
+
 

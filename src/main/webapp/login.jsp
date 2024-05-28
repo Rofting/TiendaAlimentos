@@ -29,7 +29,7 @@
                         <!-- Formulario de inicio de sesión -->
                         <div id="form_status"></div>
                         <div class="contact-form">
-                            <form>
+                            <form method="post" action="login">
                                 <div class="form-floating">
                                     <label for="floatingInput">Usuario</label>
                                     <input type="text" name="nombre_usuario" class="form-control" id="floatingInput" placeholder="Usuario">
@@ -40,7 +40,7 @@
                                 </div>
                                 <button class="btn btn-danger w-100 py-2" type="submit">Iniciar</button>
                                 <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
-                                    <a href="RegistrarUsuario.jsp" class="btn btn-secondary w-100 py-2" type="button">Registrate</a>
+                                    <a href="registrarUsuario.jsp" class="btn btn-secondary w-100 py-2" type="button">Registrate</a>
                                 </div>
                             </form>
                         </div>

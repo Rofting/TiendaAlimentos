@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="includes/header.jsp"%>
-<%@ page import="com.svalero.tiendaAlimentos.dao.AlimentoDao" %>
-<%@ page import="com.svalero.tiendaAlimentos.domain.Alimentos" %>
+<%@ page import="com.svalero.tiendaAlimentos.dao.MineralDao" %>
+<%@ page import="com.svalero.tiendaAlimentos.domain.Minerales" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.sql.SQLException" %>
@@ -10,7 +10,7 @@
 <%@ page import="javax.servlet.http.HttpServletRequest" %>
 <%@ page import="javax.servlet.http.HttpServletResponse" %>
 <%@ page import="com.svalero.tiendaAlimentos.dao.Database" %>
-<%@ page import="com.svalero.tiendaAlimentos.dao.AlimentosMapper" %>
+<%@ page import="com.svalero.tiendaAlimentos.dao.MineralesMapper" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -75,20 +75,20 @@
 		<div class="row product-lists">
 			<%
 				Database.connect();
-				List<Alimentos> alimentos = Database.jdbi.withExtension(AlimentoDao.class, dao -> dao.getAllAlimentos());
-				for (Alimentos alimento : alimentos) {
+				List<Minerales> minerales = Database.jdbi.withExtension(MineralDao.class, dao -> dao.getAllMinerales());
+				for (Minerales mineral : minerales) {
 			%>
 			<div class="col-lg-4 col-md-6 text-center">
 				<div class="single-product-item">
 					<div class="product-image">
 						<img src="assets/img/products/" alt="">
 					</div>
-					<h3><%= alimento.getNombre() %></h3>
-					<p class="product-price"><span><%= alimento.getPrecio() %></span> $</p>
+					<h3><%= mineral.getNombre() %></h3>
+					<p class="product-price"><span><%= mineral.getCantidad() %></span> $</p>
 					<div class="product-buttons">
-						<a href="EliminarElemento?entidad=alimento&id=<%= alimento.getId() %>" class="btn-delete">Eliminar</a>
+						<a href="EliminarElemento?entidad=mineral&id=<%= mineral.getId() %>" class="btn-delete">Eliminar</a>
 						<a href="#" class="btn-edit">Editar</a>
-						<a href="single-product.jsp?id=<%= alimento.getId() %>" class="btn-view">Ver</a>
+						<a href="single-product.jsp" class="btn-view">Ver</a>
 					</div>
 				</div>
 			</div>

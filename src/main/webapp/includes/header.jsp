@@ -62,16 +62,18 @@
                             <li><a href="index.jsp">Home</a></li>
                             <li><a href="#">Registrar</a>
                                 <ul class="sub-menu">
-                                    <li><a href="RegistrarUsuario.jsp">Usuario</a></li>
-                                    <li><a href="RegistrarContenidoNutricional.jsp">Contenido Nutricional</a></li>
-                                    <li><a href="RegistrarAlimento.jsp">Alimento</a></li>
-                                    <li><a href="RegistrarCategoria.jsp">Categoria</a></li>
-                                    <li><a href="RegistrarMinerales.jsp">Minerales</a></li>
-                                    <li><a href="RegistrarVitaminas.jsp">Vitaminas</a></li>
-                                    <li><a href="RegistrarConsumoAlimentos.jsp">Consumo de Alimentos</a></li>
+                                    <li><a href="registrarUsuario.jsp">Usuario</a></li>
+                                    <li><a href="registrarContenidoNutricional.jsp">Contenido Nutricional</a></li>
+                                    <li><a href="registrarAlimento.jsp">Alimento</a></li>
+                                    <li><a href="registrarCategoria.jsp">Categoria</a></li>
+                                    <li><a href="registrarMinerales.jsp">Minerales</a></li>
+                                    <li><a href="registrarVitaminas.jsp">Vitaminas</a></li>
+                                    <li><a href="registrarConsumoAlimentos.jsp">Consumo de Alimentos</a></li>
                                 </ul>
                             </li>
                             <li><a href="shop.jsp">Alimentos</a></li>
+                            <li><a href="mineral.jsp">Vitaminas</a></li>
+                            <li><a href="vitamina.jsp">Minerales</a></li>
                             <li>
                                 <div class="header-icons">
                                     <a class="shopping-cart" href="cart.jsp"><i class="fas fa-shopping-cart"></i></a>

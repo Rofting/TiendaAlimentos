@@ -25,5 +25,5 @@ public interface MineralDao {
     int updateMineral(@Bind("nombre") String nombre, @Bind("cantidad") double cantidad, @Bind("id") long id);
 
     @SqlUpdate("DELETE FROM minerales WHERE id = :id")
-    int deleteMineral(long id);
+    int deleteMineral(@Bind("id") long id);
 }

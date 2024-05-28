@@ -44,18 +44,6 @@ public class EditarUsuario extends HttpServlet {
         String nivel_actividad = request.getParameter("nivel_actividad");
         String objetivo_salud = request.getParameter("objetivo_salud");
         String preferencias_alimenticias = request.getParameter("preferencias_alimenticias");
-        float altura = Float.parseFloat(request.getParameter("altura"));
-        float peso = Float.parseFloat(request.getParameter("peso"));
-        Date fecha_nacimiento;
-
-        try {
-            fecha_nacimiento = DateUtils.parse(request.getParameter("fecha_nacimiento"));
-        } catch (ParseException e) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().println("Formato de fecha no válido: " + e.getMessage());
-            return;
-        }
-
         String rol = request.getParameter("rol");
 
         if (Database.jdbi == null) {
@@ -63,7 +51,9 @@ public class EditarUsuario extends HttpServlet {
         }
 
         try {
-            int affectedRows = Database.jdbi.withExtension(UsuarioDao.class, dao -> dao.insertUsuario(nombre, apellido, nombre_usuario, contrasena, email, genero, nivel_actividad, objetivo_salud, preferencias_alimenticias, altura, peso, fecha_nacimiento, rol));
+            int affectedRows = Database.jdbi.withExtension(UsuarioDao.class, dao -> dao.insertUsuario(
+                    nombre, apellido, nombre_usuario, contrasena, email, genero, nivel_actividad,
+                    objetivo_salud, preferencias_alimenticias, rol));
             response.getWriter().println("Usuario insertado con éxito, filas afectadas: " + affectedRows);
         } catch (Exception e) {
             e.printStackTrace();

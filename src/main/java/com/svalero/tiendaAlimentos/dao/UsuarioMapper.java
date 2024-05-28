@@ -19,9 +19,6 @@ public class UsuarioMapper implements RowMapper<Usuarios> {
                 rs.getString("nivel_actividad"),
                 rs.getString("objetivo_salud"),
                 rs.getString("preferencias_alimenticias"),
-                rs.getFloat("altura"),
-                rs.getFloat("peso"),
-                rs.getDate("fecha_nacimiento"),
                 rs.getString("rol"));
     }
 }

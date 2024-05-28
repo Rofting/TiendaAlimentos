@@ -1,3 +1,7 @@
+<%@ page import="com.svalero.tiendaAlimentos.util.DateUtils" %>
+<%@ page import="com.svalero.tiendaAlimentos.domain.Usuarios" %>
+<%@ page import="com.svalero.tiendaAlimentos.dao.UsuarioDao"%>
+<%@ page import="com.svalero.tiendaAlimentos.dao.UsuarioMapper"%>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@include file="includes/header.jsp"%>
 <!DOCTYPE html>
@@ -29,7 +33,7 @@
                 <!-- Formulario de inicio de sesión -->
                 <div id="form_status"></div>
                 <div class="contact-form">
-                    <form class="row g-3 needs-validation " method="post" enctype="multipart/form-data" id="edit-form" action="edit-user">
+                    <form class="row g-3 needs-validation " method="post" enctype="multipart/form-data" id="edit-form" action="EditarUsuario">
                         <div class="col-md-6">
                             <label for="nombre" class="form-label">Nombre</label>
                             <input type="text" name="nombre" class="form-control" id="nombre" placeholder=".." value="">
@@ -67,20 +71,8 @@
                             <input type="text" name="preferencias_alimenticias" class="form-control" id="preferencias_alimenticias" placeholder=".." value="">
                         </div>
                         <div class="col-md-6">
-                            <label for="altura" class="form-label">Altura</label>
-                            <input type="text" name="altura" class="form-control" id="altura" placeholder=".." value="">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="peso" class="form-label">Peso</label>
-                            <input type="text" name="peso" class="form-control" id="peso" placeholder=".." value="">
-                        </div>
-                        <div class="col-md-6">
                             <label for="rol" class="form-label">rol</label>
                             <input type="text" name="rol" class="form-control" id="rol" placeholder=".." value="">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="fecha_nacimiento" class="form-label">fechaNacimiento</label>
-                            <input type="date" name="fecha_nacimiento" class="form-control" id="fecha_nacimiento" placeholder=".." value="">
                         </div>
                         <div class="col-12">
                             <button class="btn btn-danger" type="submit">Registar Usuario</button>

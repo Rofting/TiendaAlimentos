@@ -20,8 +20,5 @@ public class Usuarios {
     private String nivel_actividad;
     private String objetivo_salud;
     private String preferencias_alimenticias;
-    private float altura;
-    private float peso;
-    private Date fecha_nacimiento;
     private String rol;
 }

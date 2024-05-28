@@ -25,5 +25,5 @@ public interface VitaminaDao {
     int updateVitamina(@Bind("nombre") String nombre, @Bind("cantidad") double cantidad, @Bind("id") long id);
 
     @SqlUpdate("DELETE FROM vitaminas WHERE id = :id")
-    int deleteVitamina(long id);
+    int deleteVitamina(@Bind("id") long id);
 }

@@ -11,7 +11,7 @@ public class RegistrosConsumoAlimentosMapper implements RowMapper<RegistrosConsu
         return new RegistrosConsumoAlimentos(rs.getInt("id"),
         rs.getInt("usuario_id"),
         rs.getInt("alimento_id"),
-        rs.getDouble("cantidad_consumida"),
+        rs.getFloat("cantidad_consumida"),
         rs.getDate("fecha_consumo"));
     }
 }
