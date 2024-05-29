@@ -1,5 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@include file="includes/header.jsp"%>
+<%@ page import="com.svalero.tiendaAlimentos.dao.AlimentoDao" %>
+<%@ page import="com.svalero.tiendaAlimentos.domain.Alimentos" %>
+<%@ page import="com.svalero.tiendaAlimentos.dao.Database" %>
 <script>
   $(document).ready(function () {
     $("#edit-button").click(function (event) {
@@ -48,46 +51,72 @@
     </div>
   </div>
 </div>
-
+<%
+  Database.connect();
+  long id = 0;
+  String idParam = request.getParameter("id");
+  Alimentos alimento = null;
+  if (idParam != null && !idParam.isEmpty()) {
+    id = Long.parseLong(idParam);
+    final long finalId = id;
+    alimento = Database.jdbi.withExtension(AlimentoDao.class, dao -> dao.getAlimentoById(finalId));
+  }
+%>
 <div class="contact-form-section mt-150 mb-150">
   <div class="container">
     <div class="row">
       <div class="col-lg-8 mb-5 mb-lg-0">
         <div class="form-title">
-          <h2>Agregar Alimento</h2>
+          <% if (id == 0) { %>
+          <h2>Registrar nuevo alimento</h2>
+          <% } else { %>
+          <h2>Modificar Alimento</h2>
+          <% } %>
         </div>
         <div class="contact-form">
           <form class="row g-3 needs-validation" method="post" action="EditarAlimento">
+            <% if (id != 0) { %>
+            <input type="hidden" name="id" value="<%= id %>">
+            <% } %>
             <div class="col-md-6">
               <label for="nombre" class="form-label">Nombre del Alimento</label>
-              <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Ingrese el nombre del alimento" required>
+              <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Ingrese el nombre del alimento" required <% if (id != 0) { %> value="<%= alimento.getNombre() %>"<% } %>>
             </div>
             <div class="col-md-6">
               <label for="descripcion" class="form-label">Descripción</label>
-              <input type="text" name="descripcion" class="form-control" id="descripcion" placeholder="Ingrese la descripción del alimento">
+              <input type="text" name="descripcion" class="form-control" id="descripcion" placeholder="Ingrese la descripción del alimento" <% if (id != 0) { %> value="<%= alimento.getDescripcion() %>"<% } %>>
             </div>
             <div class="col-md-6">
               <label for="categoria_id" class="form-label">ID de Categoría</label>
-              <input type="number" name="categoria_id" class="form-control" id="categoria_id" placeholder="Ingrese el ID de categoría" required>
+              <input type="number" name="categoria_id" class="form-control" id="categoria_id" placeholder="Ingrese el ID de categoría" required <% if (id != 0) { %> value="<%= alimento.getCategoria_id() %>"<% } %>>
             </div>
             <div class="col-md-6">
               <label for="contenido_nutricional_id" class="form-label">ID de Contenido Nutricional</label>
-              <input type="number" name="contenido_nutricional_id" class="form-control" id="contenido_nutricional_id" placeholder="Ingrese el ID de contenido nutricional" required>
+              <input type="number" name="contenido_nutricional_id" class="form-control" id="contenido_nutricional_id" placeholder="Ingrese el ID de contenido nutricional" required <% if (id != 0) { %> value="<%= alimento.getContenido_nutricional_id() %>"<% } %>>
             </div>
             <div class="col-md-6">
               <label for="imagen" class="form-label">URL de la Imagen</label>
-              <input type="text" name="imagen" class="form-control" id="imagen" placeholder="Ingrese la URL de la imagen">
+              <input type="text" name="imagen" class="form-control" id="imagen" placeholder="Ingrese la URL de la imagen" <% if (id != 0) { %> value="<%= alimento.getImagen() %>"<% } %>>
             </div>
             <div class="col-md-6">
               <label for="precio" class="form-label">Precio</label>
-              <input type="number" step="0.01" name="precio" class="form-control" id="precio" placeholder="Ingrese el precio" required>
+              <input type="number" step="0.01" name="precio" class="form-control" id="precio" placeholder="Ingrese el precio" required <% if (id != 0) { %> value="<%= alimento.getPrecio() %>"<% } %>>
             </div>
             <div class="col-12">
+              <% if (id == 0) { %>
               <button class="btn btn-primary" type="submit">Agregar Alimento</button>
+              <% } else { %>
+              <button class="btn btn-primary" type="submit">Modificar Alimento</button>
+              <% } %>
             </div>
           </form>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+
 
       <div class="col-lg-4">
         <div class="contact-form-wrap">

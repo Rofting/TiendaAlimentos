@@ -34,19 +34,36 @@ public class EditarCategoria extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
+        response.setCharacterEncoding("UTF-8");
+
         String nombre = request.getParameter("nombre");
+        String idParam = request.getParameter("id");
 
         if (Database.jdbi == null) {
             throw new ServletException("Database connection is not initialized.");
         }
 
         try {
-            int affectedRows = Database.jdbi.withExtension(CategoriaDao.class, dao -> dao.insertCategoria(nombre));
-            response.getWriter().println("Category inserted successfully, affected rows: " + affectedRows);
+            int affectedRows;
+            if (idParam != null && !idParam.isEmpty()) {
+                // Modificar la categoría existente
+                long id = Long.parseLong(idParam);
+                affectedRows = Database.jdbi.withExtension(CategoriaDao.class, dao -> dao.updateCategoria(nombre, id));
+                response.getWriter().println("Category updated successfully, affected rows: " + affectedRows);
+            } else {
+                // Insertar nueva categoría
+                affectedRows = Database.jdbi.withExtension(CategoriaDao.class, dao -> dao.insertCategoria(nombre));
+                response.getWriter().println("Category inserted successfully, affected rows: " + affectedRows);
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().println("Invalid category ID format: " + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().println("An error occurred while inserting the category: " + e.getMessage());
+            response.getWriter().println("An error occurred while processing the category: " + e.getMessage());
         }
     }
 }

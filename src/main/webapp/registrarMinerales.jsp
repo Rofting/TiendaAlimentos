@@ -1,3 +1,6 @@
+<%@ page import="com.svalero.tiendaAlimentos.dao.MineralDao" %>
+<%@ page import="com.svalero.tiendaAlimentos.domain.Minerales" %>
+<%@ page import="com.svalero.tiendaAlimentos.dao.Database" %>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@include file="includes/header.jsp"%>
 <!DOCTYPE html>
@@ -18,55 +21,58 @@
     </div>
 </div>
 
+<%
+    Database.connect();
+    long id = 0;
+    String idParam = request.getParameter("id");
+    Minerales mineral = null;
+    if (idParam != null && !idParam.isEmpty()) {
+        id = Long.parseLong(idParam);
+        final long finalId = id; // Almacena el valor en una variable final
+        mineral = Database.jdbi.withExtension(MineralDao.class, dao -> dao.getMineralById(finalId));
+    }
+%>
+
 <div class="contact-form-section mt-150 mb-150">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 mb-5 mb-lg-0">
                 <div class="form-title">
-                    <h2>Registrar Mineral</h2>
+                    <% if (id == 0) { %>
+                    <h2>Registrar nuevo mineral</h2>
+                    <% } else { %>
+                    <h2>Modificar Mineral</h2>
+                    <% } %>
                 </div>
                 <div class="contact-form">
                     <form class="row g-3 needs-validation" method="post" action="EditarMineral">
+                        <% if (id != 0) { %>
+                        <input type="hidden" name="id" value="<%= id %>">
+                        <% } %>
                         <div class="col-md-6">
                             <label for="nombre" class="form-label">Nombre del Mineral</label>
-                            <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Ingrese el nombre del mineral" required>
+                            <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Ingrese el nombre del mineral" required <% if (id != 0) { %> value="<%= mineral.getNombre() %>"<% } %>>
                         </div>
                         <div class="col-md-6">
                             <label for="cantidad" class="form-label">Cantidad</label>
-                            <input type="number" step="0.01" name="cantidad" class="form-control" id="cantidad" placeholder="Ingrese la cantidad" required>
+                            <input type="number" step="0.01" name="cantidad" class="form-control" id="cantidad" placeholder="Ingrese la cantidad" required <% if (id != 0) { %> value="<%= mineral.getCantidad() %>"<% } %>>
                         </div>
                         <div class="col-12">
+                            <% if (id == 0) { %>
                             <button class="btn btn-primary" type="submit">Registrar Mineral</button>
+                            <% } else { %>
+                            <button class="btn btn-primary" type="submit">Modificar Mineral</button>
+                            <% } %>
                         </div>
                     </form>
-                </div>
-            </div>
-
-
-
-
-            <div class="col-lg-4">
-                <div class="contact-form-wrap">
-                    <div class="contact-form-box">
-                        <h4><i class="fas fa-map"></i> Shop Address</h4>
-                        <p>34/8, East Hukupara <br> Gifirtok, Sadan. <br> Country Name</p>
-                    </div>
-                    <div class="contact-form-box">
-                        <h4><i class="far fa-clock"></i> Shop Hours</h4>
-                        <p>MON - FRIDAY: 8 to 9 PM <br> SAT - SUN: 10 to 8 PM </p>
-                    </div>
-                    <div class="contact-form-box">
-                        <h4><i class="fas fa-address-book"></i> Contact</h4>
-                        <p>Phone: +00 111 222 3333 <br> Email: support@fruitkha.com</p>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-
 <%@include file="includes/footer.jsp"%>
+
 
 <!-- end copyright -->
 

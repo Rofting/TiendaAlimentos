@@ -6,9 +6,11 @@ import com.svalero.tiendaAlimentos.util.Constants;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "EditarMineral", value = "/EditarMineral")
@@ -32,20 +34,39 @@ public class EditarMineral extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
+        response.setCharacterEncoding("UTF-8");
+
         String nombre = request.getParameter("nombre");
-        double cantidad = Double.parseDouble(request.getParameter("cantidad"));
+        String cantidadParam = request.getParameter("cantidad");
+        String idParam = request.getParameter("id");
 
         if (Database.jdbi == null) {
             throw new ServletException("Database connection is not initialized.");
         }
 
         try {
-            int affectedRows = Database.jdbi.withExtension(MineralDao.class, dao -> dao.insertMineral(nombre, cantidad));
-            response.getWriter().println("Vitamina inserted successfully, affected rows: " + affectedRows);
+            double cantidad = Double.parseDouble(cantidadParam);
+            int affectedRows;
+
+            if (idParam != null && !idParam.isEmpty()) {
+                // Modificar el mineral existente
+                long id = Long.parseLong(idParam);
+                affectedRows = Database.jdbi.withExtension(MineralDao.class, dao -> dao.updateMineral(nombre, cantidad, id));
+                response.getWriter().println("Mineral updated successfully, affected rows: " + affectedRows);
+            } else {
+                // Insertar nuevo mineral
+                affectedRows = Database.jdbi.withExtension(MineralDao.class, dao -> dao.insertMineral(nombre, cantidad));
+                response.getWriter().println("Mineral inserted successfully, affected rows: " + affectedRows);
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().println("Invalid format for ID or quantity: " + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().println("An error occurred while inserting the vitamina: " + e.getMessage());
+            response.getWriter().println("An error occurred while processing the mineral: " + e.getMessage());
         }
     }
 }

@@ -20,44 +20,53 @@
 	<!-- end breadcrumb section -->
 
 	<!-- single product -->
-	<div class="single-product mt-150 mb-150">
-		<div class="container">
-			<div class="row">
-				<%
-					Database.connect();
-					// Obtener el ID del parámetro de la URL
-					long id = Long.parseLong(request.getParameter("id"));
-					Alimentos alimento = Database.jdbi.withExtension(AlimentoDao.class, dao -> dao.getAlimentoById(id));
-				%>
-				<div class="col-md-5">
-					<div class="single-product-img">
-						<img src="assets/img/products/product-img-5.jpg" alt="">
-					</div>
-				</div>
-				<div class="col-md-7">
-					<div class="single-product-content">
-						<h3><%= alimento.getNombre() %></h3>
-						<p class="single-product-pricing"><span>Por  Kilo</span><%= alimento.getPrecio() %></p>
-						<p><%= alimento.getDescripcion() %></p>
-						<div class="single-product-form">
-							<form action="index.jsp">
-								<input type="number" placeholder="0">
-							</form>
-							<a href="cart.jsp" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-							<p><strong>Categories: </strong>Fruits, Organic</p>
-						</div>
-						<h4>Share:</h4>
-						<ul class="product-share">
-							<li><a href=""><i class="fab fa-facebook-f"></i></a></li>
-							<li><a href=""><i class="fab fa-twitter"></i></a></li>
-							<li><a href=""><i class="fab fa-google-plus-g"></i></a></li>
-							<li><a href=""><i class="fab fa-linkedin"></i></a></li>
-						</ul>
-					</div>
+<div class="single-product mt-150 mb-150">
+	<div class="container">
+		<div class="row">
+			<%
+				Database.connect();
+				long id = 0;
+				String idParam = request.getParameter("id");
+				if (idParam != null && !idParam.isEmpty()) {
+					id = Long.parseLong(idParam);
+					final long finalId = id; // Almacena el valor en una variable final
+					Alimentos alimento = Database.jdbi.withExtension(AlimentoDao.class, dao -> dao.getAlimentoById(finalId));
+			%>
+			<div class="col-md-5">
+				<div class="single-product-img">
+					<img src="assets/img/products/product-img-5.jpg" alt="">
 				</div>
 			</div>
+			<div class="col-md-7">
+				<div class="single-product-content">
+					<h3><%= alimento.getNombre() %></h3>
+					<p class="single-product-pricing"><span>Por Kilo</span><%= alimento.getPrecio() %></p>
+					<p><%= alimento.getDescripcion() %></p>
+					<div class="single-product-form">
+						<form action="index.jsp">
+							<input type="number" placeholder="0" value="<%= alimento.getPrecio() %>">
+						</form>
+						<a href="cart.jsp" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+						<p><strong>Categories: </strong>Fruits, Organic</p>
+					</div>
+					<h4>Share:</h4>
+					<ul class="product-share">
+						<li><a href=""><i class="fab fa-facebook-f"></i></a></li>
+						<li><a href=""><i class="fab fa-twitter"></i></a></li>
+						<li><a href=""><i class="fab fa-google-plus-g"></i></a></li>
+						<li><a href=""><i class="fab fa-linkedin"></i></a></li>
+					</ul>
+				</div>
+			</div>
+			<% } else { %>
+			<!-- Si el ID es nulo, deja los campos del formulario vacíos -->
+			<div class="col-md-12">
+				<h3>No se ha proporcionado un ID válido.</h3>
+			</div>
+			<% } %>
 		</div>
 	</div>
+</div>
 	<!-- end single product -->
 
 	<!-- more products -->

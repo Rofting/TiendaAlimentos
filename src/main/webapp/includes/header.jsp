@@ -72,8 +72,8 @@
                                 </ul>
                             </li>
                             <li><a href="shop.jsp">Alimentos</a></li>
-                            <li><a href="mineral.jsp">Vitaminas</a></li>
-                            <li><a href="vitamina.jsp">Minerales</a></li>
+                            <li><a href="mineral.jsp">Minerales</a></li>
+                            <li><a href="vitamina.jsp">Vitaminas</a></li>
                             <li>
                                 <div class="header-icons">
                                     <a class="shopping-cart" href="cart.jsp"><i class="fas fa-shopping-cart"></i></a>

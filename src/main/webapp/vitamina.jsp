@@ -48,7 +48,7 @@
 			<div class="col-lg-8 offset-lg-2 text-center">
 				<div class="breadcrumb-text">
 					<p>Fresh and Organic</p>
-					<h1>Ingredientes</h1>
+					<h1>Vitaminas</h1>
 				</div>
 			</div>
 		</div>
@@ -87,7 +87,7 @@
 					<p class="product-price"><span><%= vitamina.getCantidad() %></span> $</p>
 					<div class="product-buttons">
 						<a href="EliminarElemento?entidad=vitamina&id=<%= vitamina.getId() %>" class="btn-delete">Eliminar</a>
-						<a href="#" class="btn-edit">Editar</a>
+						<a href="registrarVitaminas.jsp?id=<%= vitamina.getId() %>" class="btn-edit">Editar</a>
 						<a href="single-product.jsp" class="btn-view">Ver</a>
 					</div>
 				</div>

@@ -6,9 +6,11 @@ import com.svalero.tiendaAlimentos.util.Constants;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "EditarAlimento", value = "/EditarAlimento")
@@ -32,24 +34,45 @@ public class EditarAlimento extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
+        response.setCharacterEncoding("UTF-8");
+
         String nombre = request.getParameter("nombre");
         String descripcion = request.getParameter("descripcion");
-        int categoria_id = Integer.parseInt(request.getParameter("categoria_id"));
-        int contenido_nutricional_id = Integer.parseInt(request.getParameter("contenido_nutricional_id"));
+        String categoriaIdParam = request.getParameter("categoria_id");
+        String contenidoNutricionalIdParam = request.getParameter("contenido_nutricional_id");
         String imagen = request.getParameter("imagen");
-        float precio = Float.parseFloat(request.getParameter("precio"));
+        String precioParam = request.getParameter("precio");
+        String idParam = request.getParameter("id");
 
         if (Database.jdbi == null) {
             throw new ServletException("Database connection is not initialized.");
         }
 
         try {
-            int affectedRows = Database.jdbi.withExtension(AlimentoDao.class, dao -> dao.insertAlimento(nombre, descripcion,categoria_id,contenido_nutricional_id, imagen,precio));
-            response.getWriter().println("Vitamina inserted successfully, affected rows: " + affectedRows);
+            int categoria_id = Integer.parseInt(categoriaIdParam);
+            int contenido_nutricional_id = Integer.parseInt(contenidoNutricionalIdParam);
+            float precio = Float.parseFloat(precioParam);
+            int affectedRows;
+
+            if (idParam != null && !idParam.isEmpty()) {
+                // Modificar el alimento existente
+                long id = Long.parseLong(idParam);
+                affectedRows = Database.jdbi.withExtension(AlimentoDao.class, dao -> dao.updateAlimento(nombre, descripcion, categoria_id, contenido_nutricional_id, imagen, precio, id));
+                response.getWriter().println("Alimento updated successfully, affected rows: " + affectedRows);
+            } else {
+                // Insertar nuevo alimento
+                affectedRows = Database.jdbi.withExtension(AlimentoDao.class, dao -> dao.insertAlimento(nombre, descripcion, categoria_id, contenido_nutricional_id, imagen, precio));
+                response.getWriter().println("Alimento inserted successfully, affected rows: " + affectedRows);
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().println("Invalid format for ID, category ID, nutritional content ID, or price: " + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().println("An error occurred while inserting the vitamina: " + e.getMessage());
+            response.getWriter().println("An error occurred while processing the alimento: " + e.getMessage());
         }
     }
 }

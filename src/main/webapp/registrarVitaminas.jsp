@@ -1,3 +1,6 @@
+<%@ page import="com.svalero.tiendaAlimentos.domain.Vitaminas" %>
+<%@ page import="com.svalero.tiendaAlimentos.dao.Database" %>
+<%@ page import="com.svalero.tiendaAlimentos.dao.VitaminaDao" %>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@include file="includes/header.jsp"%>
 <!DOCTYPE html>
@@ -18,32 +21,48 @@
     </div>
 </div>
 
+<%
+    Database.connect();
+    long id = 0;
+    String idParam = request.getParameter("id");
+    Vitaminas vitamina = null;
+    if (idParam != null && !idParam.isEmpty()) {
+        id = Long.parseLong(idParam);
+        final long finalId = id;
+        vitamina = Database.jdbi.withExtension(VitaminaDao.class, dao -> dao.getVitaminaById(finalId));
+    }
+%>
+
 <div class="contact-form-section mt-150 mb-150">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 mb-5 mb-lg-0">
                 <div class="form-title">
-                    <h2>Registrar Vitamina</h2>
+                    <h2><% if (vitamina == null) { %>Registrar<% } else { %>Modificar<% } %> Vitamina</h2>
                 </div>
                 <div class="contact-form">
                     <form class="row g-3 needs-validation" method="post" action="EditarVitamina">
+                        <% if (vitamina != null) { %>
+                        <input type="hidden" name="id" value="<%= vitamina.getId() %>">
+                        <% } %>
                         <div class="col-md-6">
                             <label for="nombre" class="form-label">Nombre de la Vitamina</label>
-                            <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Ingrese el nombre de la vitamina" required>
+                            <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Ingrese el nombre de la vitamina" required <% if (vitamina != null) { %> value="<%= vitamina.getNombre() %>"<% } %>>
                         </div>
                         <div class="col-md-6">
                             <label for="cantidad" class="form-label">Cantidad</label>
-                            <input type="number" step="0.01" name="cantidad" class="form-control" id="cantidad" placeholder="Ingrese la cantidad" required>
+                            <input type="number" step="0.01" name="cantidad" class="form-control" id="cantidad" placeholder="Ingrese la cantidad" required <% if (vitamina != null) { %> value="<%= vitamina.getCantidad() %>"<% } %>>
                         </div>
                         <div class="col-12">
+                            <% if (vitamina == null) { %>
                             <button class="btn btn-primary" type="submit">Registrar Vitamina</button>
+                            <% } else { %>
+                            <button class="btn btn-primary" type="submit">Modificar Vitamina</button>
+                            <% } %>
                         </div>
                     </form>
                 </div>
             </div>
-
-
-
 
             <div class="col-lg-4">
                 <div class="contact-form-wrap">
@@ -65,8 +84,8 @@
     </div>
 </div>
 
-
 <%@include file="includes/footer.jsp"%>
+
 
 <!-- end copyright -->
 

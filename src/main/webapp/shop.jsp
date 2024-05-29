@@ -48,7 +48,7 @@
 			<div class="col-lg-8 offset-lg-2 text-center">
 				<div class="breadcrumb-text">
 					<p>Fresh and Organic</p>
-					<h1>Ingredientes</h1>
+					<h1>Alimentos</h1>
 				</div>
 			</div>
 		</div>
@@ -87,7 +87,7 @@
 					<p class="product-price"><span><%= alimento.getPrecio() %></span> $</p>
 					<div class="product-buttons">
 						<a href="EliminarElemento?entidad=alimento&id=<%= alimento.getId() %>" class="btn-delete">Eliminar</a>
-						<a href="#" class="btn-edit">Editar</a>
+						<a href="registrarAlimento.jsp?id=<%= alimento.getId() %>" class="btn-edit">Editar</a>
 						<a href="single-product.jsp?id=<%= alimento.getId() %>" class="btn-view">Ver</a>
 					</div>
 				</div>
