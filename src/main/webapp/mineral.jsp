@@ -1,21 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="includes/header.jsp"%>
-<%@ page import="com.svalero.tiendaAlimentos.dao.MineralDao" %>
 <%@ page import="com.svalero.tiendaAlimentos.domain.Minerales" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="java.sql.SQLException" %>
-<%@ page import="javax.servlet.ServletException" %>
-<%@ page import="javax.servlet.http.HttpServlet" %>
-<%@ page import="javax.servlet.http.HttpServletRequest" %>
-<%@ page import="javax.servlet.http.HttpServletResponse" %>
-<%@ page import="com.svalero.tiendaAlimentos.dao.Database" %>
-<%@ page import="com.svalero.tiendaAlimentos.dao.MineralesMapper" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<title>Shop</title>
-
 	<style>
 		.product-buttons a {
 			display: inline-block;
@@ -38,7 +29,6 @@
 			background-color: green;
 		}
 	</style>
-
 </head>
 <body>
 <!-- breadcrumb-section -->
@@ -55,6 +45,16 @@
 	</div>
 </div>
 <!-- end breadcrumb section -->
+
+<form class="row g-2" id="search-form" method="GET" action="BuscarMinerales">
+	<div class="input-group mb-3">
+		<input type="text" class="form-control" placeholder="Buscar por nombre de vitamina" name="search" id="search-input"
+			<% if (request.getParameter("search") != null && !request.getParameter("search").isEmpty()) { %> value="<%= request.getParameter("search") %>"<% } %>>
+		<input type="number" class="form-control" placeholder="Cantidad mínima" name="minCantidad" id="minCantidad-input"
+			   value="<%= request.getParameter("minCantidad") != null ? request.getParameter("minCantidad") : "" %>">
+		<button type="submit" class="btn btn-outline-success" id="search-button">Buscar Mineral</button>
+	</div>
+</form>
 
 <!-- products -->
 <div class="product-section mt-150 mb-150">
@@ -74,9 +74,9 @@
 
 		<div class="row product-lists">
 			<%
-				Database.connect();
-				List<Minerales> minerales = Database.jdbi.withExtension(MineralDao.class, dao -> dao.getAllMinerales());
-				for (Minerales mineral : minerales) {
+				List<Minerales> minerales = (List<Minerales>) request.getAttribute("minerales");
+				if (minerales != null) {
+					for (Minerales mineral : minerales) {
 			%>
 			<div class="col-lg-4 col-md-6 text-center">
 				<div class="single-product-item">
@@ -92,6 +92,11 @@
 					</div>
 				</div>
 			</div>
+			<%
+				}
+			} else {
+			%>
+			<p>No se encontraron resultados para la búsqueda.</p>
 			<%
 				}
 			%>
@@ -112,6 +117,7 @@
 	</div>
 </div>
 <!-- end products -->
+
 <%@include file="includes/footer.jsp"%>
 
 <!-- jquery -->
@@ -134,27 +140,5 @@
 <script src="assets/js/sticker.js"></script>
 <!-- main js -->
 <script src="assets/js/main.js"></script>
-
-<script>
-	function deleteProduct(productId) {
-		// Deshabilitar solo el botón clicado
-		$(".btn-delete").prop("disabled", true);
-
-		$.ajax({
-			type: "GET",
-			url: "remove-products?id_product=" + productId,
-			success: function (data) {
-				// Manejar la respuesta si es necesario
-				$(".btn-delete").prop("disabled", false);
-				// Actualizar la interfaz según sea necesario
-			},
-			error: function (error) {
-				// Manejar el error si es necesario
-				$(".btn-delete").prop("disabled", false);
-			}
-		});
-	}
-</script>
-
 </body>
 </html>

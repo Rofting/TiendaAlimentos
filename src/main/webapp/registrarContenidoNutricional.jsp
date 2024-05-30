@@ -26,7 +26,7 @@
                     <h2>Registrar Contenido Nutricional</h2>
                 </div>
                 <div class="contact-form">
-                    <form class="row g-3 needs-validation" method="post" action="registrar-contenido-nutricional">
+                    <form class="row g-3 needs-validation" method="post" action="EditarContenidoNutricional">
                         <div class="col-md-6">
                             <label for="calorias" class="form-label">Calorías</label>
                             <input type="number" name="calorias" class="form-control" id="calorias" placeholder="Ingrese las calorías" required>

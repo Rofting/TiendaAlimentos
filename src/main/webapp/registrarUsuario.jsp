@@ -33,52 +33,52 @@
                 <!-- Formulario de inicio de sesión -->
                 <div id="form_status"></div>
                 <div class="contact-form">
-                    <form class="row g-3 needs-validation " method="post" enctype="multipart/form-data" id="edit-form" action="EditarUsuario">
+                    <form class="row g-3 needs-validation" method="post" id="edit-form" action="EditarUsuario">
                         <div class="col-md-6">
                             <label for="nombre" class="form-label">Nombre</label>
-                            <input type="text" name="nombre" class="form-control" id="nombre" placeholder=".." value="">
-                        </div>
-                        <div class="col-md-6 ">
-                            <label for="apellido" class="form-label">Apellido</label>
-                            <input type="text" name="apellido" class="form-control" id="apellido" placeholder=".." value="">
-                        </div>
-                        <div class="col-md-6 ">
-                            <label for="nombre_usuario" class="form-label">Nombre de usuario</label>
-                            <input type="text" name="nombre_usuario" class="form-control" id="nombre_usuario" placeholder=".." value="">
+                            <input type="text" name="nombre" class="form-control" id="nombre" placeholder=".." required>
                         </div>
                         <div class="col-md-6">
-                            <label for="contrasena" class="form-label">Contrasena</label>
-                            <input type="text" name="contrasena" class="form-control" id="contrasena" placeholder="Example Labcdef1B">
+                            <label for="apellido" class="form-label">Apellido</label>
+                            <input type="text" name="apellido" class="form-control" id="apellido" placeholder=".." required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="nombre_usuario" class="form-label">Nombre de usuario</label>
+                            <input type="text" name="nombre_usuario" class="form-control" id="nombre_usuario" placeholder=".." required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="contrasena" class="form-label">Contraseña</label>
+                            <input type="password" name="contrasena" class="form-control" id="contrasena" placeholder="Example Labcdef1B" required>
                         </div>
                         <div class="col-md-6">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" name="email" class="form-control" id="email" placeholder=".." value="">
+                            <input type="email" name="email" class="form-control" id="email" placeholder=".." required>
                         </div>
                         <div class="col-md-6">
-                            <label for="genero" class="form-label">Genero</label>
-                            <input type="text" name="genero" class="form-control" id="genero" placeholder=".." value="">
+                            <label for="genero" class="form-label">Género</label>
+                            <input type="text" name="genero" class="form-control" id="genero" placeholder=".." required>
                         </div>
                         <div class="col-md-6">
                             <label for="nivel_actividad" class="form-label">Nivel de Actividad</label>
-                            <input type="text" name="nivel_actividad" class="form-control" id="nivel_actividad" placeholder=".." value="">
+                            <input type="text" name="nivel_actividad" class="form-control" id="nivel_actividad" placeholder=".." required>
                         </div>
                         <div class="col-md-6">
-                            <label for="objetivo_salud" class="form-label">objetivoSalud</label>
-                            <input type="text" name="objetivo_salud" class="form-control" id="objetivo_salud" placeholder=".." value="">
+                            <label for="objetivo_salud" class="form-label">Objetivo Salud</label>
+                            <input type="text" name="objetivo_salud" class="form-control" id="objetivo_salud" placeholder=".." required>
                         </div>
                         <div class="col-md-6">
                             <label for="preferencias_alimenticias" class="form-label">Preferencias Alimenticias</label>
-                            <input type="text" name="preferencias_alimenticias" class="form-control" id="preferencias_alimenticias" placeholder=".." value="">
+                            <input type="text" name="preferencias_alimenticias" class="form-control" id="preferencias_alimenticias" placeholder=".." required>
                         </div>
                         <div class="col-md-6">
-                            <label for="rol" class="form-label">rol</label>
-                            <input type="text" name="rol" class="form-control" id="rol" placeholder=".." value="">
+                            <label for="rol" class="form-label">Rol</label>
+                            <input type="text" name="rol" class="form-control" id="rol" placeholder=".." required>
                         </div>
                         <div class="col-12">
-                            <button class="btn btn-danger" type="submit">Registar Usuario</button>
+                            <button class="btn btn-danger" type="submit">Registrar Usuario</button>
                         </div>
-                        <input type="hidden" name="id" value=""/>
                     </form>
+
                 </div>
             </div>
 
@@ -131,3 +131,4 @@
 
 </body>
 </html>
+

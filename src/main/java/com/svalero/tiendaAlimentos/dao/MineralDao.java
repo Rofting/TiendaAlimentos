@@ -26,4 +26,8 @@ public interface MineralDao {
 
     @SqlUpdate("DELETE FROM minerales WHERE id = :id")
     int deleteMineral(@Bind("id") long id);
+
+    @SqlQuery("SELECT * FROM Minerales WHERE LOWER(nombre) LIKE CONCAT('%', LOWER(:nombre), '%') AND cantidad >= :cantidad")
+    @UseRowMapper(MineralesMapper.class)
+    List<Minerales> findByNombreYCantidad(@Bind("nombre") String nombre, @Bind("cantidad") double cantidad);
 }
