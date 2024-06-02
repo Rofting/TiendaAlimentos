@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.svalero.tiendaAlimentos.util.ErrorUtils.sendError;
+import static com.svalero.tiendaAlimentos.util.ErrorUtils.sendMessage;
+
 @WebServlet(name = "EditarAlimento", value = "/EditarAlimento")
 public class EditarAlimento extends HttpServlet {
 
@@ -50,6 +53,10 @@ public class EditarAlimento extends HttpServlet {
         }
 
         try {
+            if (nombre == null || descripcion == null || categoriaIdParam == null || contenidoNutricionalIdParam == null || imagen == null || precioParam == null) {
+                throw new ServletException("One or more parameters missing.");
+            }
+
             int categoria_id = Integer.parseInt(categoriaIdParam);
             int contenido_nutricional_id = Integer.parseInt(contenidoNutricionalIdParam);
             float precio = Float.parseFloat(precioParam);
@@ -59,20 +66,30 @@ public class EditarAlimento extends HttpServlet {
                 // Modificar el alimento existente
                 long id = Long.parseLong(idParam);
                 affectedRows = Database.jdbi.withExtension(AlimentoDao.class, dao -> dao.updateAlimento(nombre, descripcion, categoria_id, contenido_nutricional_id, imagen, precio, id));
-                response.getWriter().println("Alimento updated successfully, affected rows: " + affectedRows);
+                sendMessage("Alimento modificado correctamente", response);
             } else {
                 // Insertar nuevo alimento
                 affectedRows = Database.jdbi.withExtension(AlimentoDao.class, dao -> dao.insertAlimento(nombre, descripcion, categoria_id, contenido_nutricional_id, imagen, precio));
-                response.getWriter().println("Alimento inserted successfully, affected rows: " + affectedRows);
+                sendMessage("Alimento agregado correctamente", response);
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().println("Invalid format for ID, category ID, nutritional content ID, or price: " + e.getMessage());
+            sendError("Formato de número incorrecto en uno de los campos numéricos.", response);
+        } catch (IOException e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            sendError("Error de entrada/salida.", response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            sendError("Faltan uno o más parámetros.", response);
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().println("An error occurred while processing the alimento: " + e.getMessage());
+            sendError("Ha ocurrido un error procesando el alimento.", response);
         }
+
     }
 }
+

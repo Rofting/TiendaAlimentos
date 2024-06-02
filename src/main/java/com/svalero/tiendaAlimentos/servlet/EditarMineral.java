@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.svalero.tiendaAlimentos.util.ErrorUtils.sendError;
+import static com.svalero.tiendaAlimentos.util.ErrorUtils.sendMessage;
+
 @WebServlet(name = "EditarMineral", value = "/EditarMineral")
 public class EditarMineral extends HttpServlet {
 
@@ -53,20 +56,20 @@ public class EditarMineral extends HttpServlet {
                 // Modificar el mineral existente
                 long id = Long.parseLong(idParam);
                 affectedRows = Database.jdbi.withExtension(MineralDao.class, dao -> dao.updateMineral(nombre, cantidad, id));
-                response.getWriter().println("Mineral updated successfully, affected rows: " + affectedRows);
+                sendMessage("Mineral agregado con exito " ,response);
             } else {
                 // Insertar nuevo mineral
                 affectedRows = Database.jdbi.withExtension(MineralDao.class, dao -> dao.insertMineral(nombre, cantidad));
-                response.getWriter().println("Mineral inserted successfully, affected rows: " + affectedRows);
+                sendMessage("Mineral insertado con exito " ,response);
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().println("Invalid format for ID or quantity: " + e.getMessage());
+            sendError("ID invalido" ,response);
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().println("An error occurred while processing the mineral: " + e.getMessage());
+            sendError("An error occurred while processing the mineral: " ,response);
         }
     }
 }

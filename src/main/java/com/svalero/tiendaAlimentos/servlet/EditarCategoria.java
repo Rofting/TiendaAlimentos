@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.svalero.tiendaAlimentos.util.ErrorUtils.sendError;
+import static com.svalero.tiendaAlimentos.util.ErrorUtils.sendMessage;
+
 @WebServlet(name = "EditarCategoria", value = "/EditarCategoria")
 public class EditarCategoria extends HttpServlet {
 
@@ -50,20 +53,20 @@ public class EditarCategoria extends HttpServlet {
                 // Modificar la categoría existente
                 long id = Long.parseLong(idParam);
                 affectedRows = Database.jdbi.withExtension(CategoriaDao.class, dao -> dao.updateCategoria(nombre, id));
-                response.getWriter().println("Category updated successfully, affected rows: " + affectedRows);
+                sendMessage("Categoria modificada correctamente",response);
             } else {
                 // Insertar nueva categoría
                 affectedRows = Database.jdbi.withExtension(CategoriaDao.class, dao -> dao.insertCategoria(nombre));
-                response.getWriter().println("Category inserted successfully, affected rows: " + affectedRows);
+                sendMessage("Categoria Insertada correctamente", response);
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().println("Invalid category ID format: " + e.getMessage());
+            sendError("Invalid category ID format: " ,response);
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().println("An error occurred while processing the category: " + e.getMessage());
+            sendError("Hubo un error al insertar la categoria " ,response);
         }
     }
 }

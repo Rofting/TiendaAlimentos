@@ -1,5 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@include file="includes/header.jsp"%>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#edit-form").on("submit", function(event) {
+            event.preventDefault();
+            const formValue = $(this).serialize();
+            $.post("EditarContenidoNutricional", formValue, function(data) {
+                $("#result").html(data);
+            });
+        });
+    });
+</script>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -26,7 +37,7 @@
                     <h2>Registrar Contenido Nutricional</h2>
                 </div>
                 <div class="contact-form">
-                    <form class="row g-3 needs-validation" method="post" action="EditarContenidoNutricional">
+                    <form class="row g-3 needs-validation" method="post" enctype="multipart/form-data" id="edit-form">
                         <div class="col-md-6">
                             <label for="calorias" class="form-label">Calorías</label>
                             <input type="number" name="calorias" class="form-control" id="calorias" placeholder="Ingrese las calorías" required>
@@ -47,6 +58,8 @@
                             <button class="btn btn-primary" type="submit">Registrar Contenido Nutricional</button>
                         </div>
                     </form>
+                    <br>
+                    <div id="result"></div>
                 </div>
             </div>
 

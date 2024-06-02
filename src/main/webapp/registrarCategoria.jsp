@@ -1,5 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@include file="includes/header.jsp"%>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#edit-form").on("submit", function(event) {
+            event.preventDefault();
+            const formValue = $(this).serialize();
+            $.post("EditarCategoria", formValue, function(data) {
+                $("#result").html(data);
+            });
+        });
+    });
+</script>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -23,10 +34,10 @@
         <div class="row">
             <div class="col-lg-8 mb-5 mb-lg-0">
                 <div class="form-title">
-                    <h2>Crear Nueva Categoría</h2>
+                    <h2>Categorías</h2>
                 </div>
                 <div class="contact-form">
-                    <form class="row g-3 needs-validation" method="post" action="EditarCategoria">
+                    <form class="row g-3 needs-validation" method="post" enctype="multipart/form-data" id="edit-form">
                         <div class="col-md-6">
                             <label for="nombre" class="form-label">Nombre de la Categoría</label>
                             <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Ingrese el nombre de la categoría" required>
@@ -35,6 +46,8 @@
                             <button class="btn btn-primary" type="submit">Crear Categoría</button>
                         </div>
                     </form>
+                    <br>
+                    <div id="result"></div>
                 </div>
             </div>
 

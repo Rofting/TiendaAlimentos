@@ -2,7 +2,17 @@
 <%@include file="includes/header.jsp"%>
 <!DOCTYPE html>
 <html lang="es">
-
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#edit-form").on("submit", function(event) {
+            event.preventDefault();
+            const formValue = $(this).serialize();
+            $.post("EditarRegistroAlimentos", formValue, function(data) {
+                $("#result").html(data);
+            });
+        });
+    });
+</script>
 <body>
 
 <div class="breadcrumb-section breadcrumb-bg">
@@ -11,14 +21,14 @@
             <div class="col-lg-8 offset-lg-2 text-center">
                 <div class="breadcrumb-text">
                     <p>Como Familia</p>
-                    <h1>Inicia Sesion</h1>
+                    <h1>Registro de Consumo</h1>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="contact-form-section mt-150 mb-150">
+<div class="contact-form-section mt-150 mb-150" >
     <div class="container">
         <div class="row">
             <div class="col-lg-8 mb-5 mb-lg-0">
@@ -26,7 +36,7 @@
                     <h2>Registrar Consumo de Alimentos</h2>
                 </div>
                 <div class="contact-form">
-                    <form class="row g-3 needs-validation" method="post" action="registrar-consumo-alimentos">
+                    <form class="row g-3 needs-validation" method="post" enctype="multipart/form-data" id="edit-form">
                         <div class="col-md-6">
                             <label for="usuario_id" class="form-label">ID de Usuario</label>
                             <input type="number" name="usuario_id" class="form-control" id="usuario_id" placeholder="Ingrese el ID de usuario" required>
@@ -47,6 +57,8 @@
                             <button class="btn btn-primary" type="submit">Registrar Consumo</button>
                         </div>
                     </form>
+                    <br>
+                    <div id="result"></div>
                 </div>
             </div>
 

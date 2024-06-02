@@ -12,6 +12,9 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
+import static com.svalero.tiendaAlimentos.util.ErrorUtils.sendError;
+import static com.svalero.tiendaAlimentos.util.ErrorUtils.sendMessage;
+
 @WebServlet(name = "EditarVitamina", value = "/EditarVitamina")
 public class EditarVitamina extends HttpServlet {
 
@@ -46,16 +49,16 @@ public class EditarVitamina extends HttpServlet {
             if (id == 0) {
                 // Insertar nueva vitamina
                 affectedRows = Database.jdbi.withExtension(VitaminaDao.class, dao -> dao.insertVitamina(nombre, cantidad));
-                response.getWriter().println("Vitamina inserted successfully, affected rows: " + affectedRows);
+                sendMessage("Vitamina agregada con exito", response);
             } else {
                 // Actualizar vitamina existente
                 affectedRows = Database.jdbi.withExtension(VitaminaDao.class, dao -> dao.updateVitamina(nombre, cantidad, id));
-                response.getWriter().println("Vitamina updated successfully, affected rows: " + affectedRows);
+                sendMessage("Vitamina modificada con exito", response);
             }
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().println("An error occurred while processing the request: " + e.getMessage());
+            sendError("Ha ocurrido un error para realizar la solicitud", response);
         }
     }
 }

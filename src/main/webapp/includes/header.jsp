@@ -6,7 +6,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
-
 <!-- title -->
 <title>Fruitkha</title>
 
@@ -31,7 +30,36 @@
 <link rel="stylesheet" href="assets/css/main.css">
 <!-- responsive -->
 <link rel="stylesheet" href="assets/css/responsive.css">
+    <style>
+        .barra-busqueda {
+            width: 300px; /* Ajustar el ancho según sea necesario */
+            margin: 20px auto; /* Centrar la barra de búsqueda */
+            position: relative; /* Para posicionar el botón */
+            display: flex; /* Para alinear el botón */
+            border: 1px solid #ccc;
+            border-radius: 20px; /* Bordes redondeados */
+            overflow: hidden; /* Para ocultar los bordes redondeados del botón */
+        }
 
+        .entrada-busqueda {
+            flex: 1; /* La entrada de búsqueda ocupa todo el espacio disponible */
+            padding: 10px;
+            border: none;
+            border-radius: 20px 0 0 20px; /* Bordes redondeados */
+            font-size: 16px;
+        }
+
+        .boton-busqueda {
+            background-color: #162133;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 0 20px 20px 0; /* Bordes redondeados */
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 

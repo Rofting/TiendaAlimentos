@@ -1,8 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="includes/header.jsp"%>
+<%@ page import="com.svalero.tiendaAlimentos.dao.MineralDao" %>
 <%@ page import="com.svalero.tiendaAlimentos.domain.Minerales" %>
 <%@ page import="java.util.List" %>
-
+<%@ page import="com.svalero.tiendaAlimentos.dao.Database" %>
+<%@ page import="java.sql.SQLException" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,9 +23,6 @@
 		}
 		.btn-edit {
 			background-color: blue;
-		}
-		.btn-remove {
-			background-color: orange;
 		}
 		.btn-view {
 			background-color: green;
@@ -46,15 +45,16 @@
 </div>
 <!-- end breadcrumb section -->
 
-<form class="row g-2" id="search-form" method="GET" action="BuscarMinerales">
-	<div class="input-group mb-3">
-		<input type="text" class="form-control" placeholder="Buscar por nombre de vitamina" name="search" id="search-input"
-			<% if (request.getParameter("search") != null && !request.getParameter("search").isEmpty()) { %> value="<%= request.getParameter("search") %>"<% } %>>
-		<input type="number" class="form-control" placeholder="Cantidad mínima" name="minCantidad" id="minCantidad-input"
-			   value="<%= request.getParameter("minCantidad") != null ? request.getParameter("minCantidad") : "" %>">
-		<button type="submit" class="btn btn-outline-success" id="search-button">Buscar Mineral</button>
-	</div>
-</form>
+<div class="barra-busqueda">
+	<form class="row g-2" id="search-form" method="GET">
+		<div class="mb-1">
+			<input type="text" class="form-control entrada-busqueda" placeholder="Nombre y cantidad mínima (por ejemplo, 'calcio 5')" name="search" id="search-input">
+		</div>
+		<div class="col-auto">
+			<button type="submit" class="btn btn-primary mb-3 boton-busqueda" id="search-button">Buscar</button>
+		</div>
+	</form>
+</div>
 
 <!-- products -->
 <div class="product-section mt-150 mb-150">
@@ -71,12 +71,42 @@
 				</div>
 			</div>
 		</div>
+		<%
+			String search = request.getParameter("search") != null ? request.getParameter("search") : "";
+			String nombre;
+			double cantidad = 0;
 
+			if (!search.isEmpty()) {
+				String[] searchParams = search.split(" ");
+				if (searchParams.length == 2) {
+					nombre = searchParams[0];
+					try {
+						cantidad = Double.parseDouble(searchParams[1]);
+					} catch (NumberFormatException e) {
+						cantidad = 0; // or handle the error appropriately
+					}
+				} else {
+                    nombre = "";
+                }
+            } else {
+                nombre = "";
+            }
+
+            try {
+				Database.connect();
+				List<Minerales> minerales;
+				if (nombre.isEmpty() && cantidad == 0) {
+					minerales = Database.jdbi.withExtension(MineralDao.class, dao -> dao.getAllMinerales());
+				} else {
+					double finalCantidad = cantidad;
+					minerales = Database.jdbi.withExtension(MineralDao.class, dao -> dao.findByNombreYCantidad(nombre, finalCantidad));
+				}
+
+				if (minerales != null && !minerales.isEmpty()) {
+		%>
 		<div class="row product-lists">
 			<%
-				List<Minerales> minerales = (List<Minerales>) request.getAttribute("minerales");
-				if (minerales != null) {
-					for (Minerales mineral : minerales) {
+				for (Minerales mineral : minerales) {
 			%>
 			<div class="col-lg-4 col-md-6 text-center">
 				<div class="single-product-item">
@@ -88,19 +118,34 @@
 					<div class="product-buttons">
 						<a href="EliminarElemento?entidad=mineral&id=<%= mineral.getId() %>" class="btn-delete">Eliminar</a>
 						<a href="registrarMinerales.jsp?id=<%= mineral.getId() %>" class="btn-edit">Editar</a>
-						<a href="single-product.jsp" class="btn-view">Ver</a>
+						<a href="single-product.jsp?id=<%= mineral.getId() %>" class="btn-view">Ver</a>
 					</div>
 				</div>
 			</div>
 			<%
 				}
-			} else {
-			%>
-			<p>No se encontraron resultados para la búsqueda.</p>
-			<%
-				}
 			%>
 		</div>
+		<%
+		} else {
+		%>
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<p>No se encontraron minerales.</p>
+			</div>
+		</div>
+		<%
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					Database.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		%>
 		<div class="row">
 			<div class="col-lg-12 text-center">
 				<div class="pagination-wrap">
@@ -117,7 +162,6 @@
 	</div>
 </div>
 <!-- end products -->
-
 <%@include file="includes/footer.jsp"%>
 
 <!-- jquery -->
@@ -140,5 +184,10 @@
 <script src="assets/js/sticker.js"></script>
 <!-- main js -->
 <script src="assets/js/main.js"></script>
+
 </body>
 </html>
+
+
+
+

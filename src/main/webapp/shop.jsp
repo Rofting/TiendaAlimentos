@@ -55,7 +55,16 @@
 	</div>
 </div>
 <!-- end breadcrumb section -->
-
+<div class="barra-busqueda">
+	<form class="row g-2" id="search-form" method="GET">
+		<div class="mb-1">
+			<input type="text" class="form-control entrada-busqueda" placeholder="Búsqueda" name="search" id="search-input">
+		</div>
+		<div class="col-auto">
+			<button type="submit" class="btn btn-primary mb-3 boton-busqueda" id="search-button">Buscar</button>
+		</div>
+	</form>
+</div>
 <!-- products -->
 <div class="product-section mt-150 mb-150">
 	<div class="container">

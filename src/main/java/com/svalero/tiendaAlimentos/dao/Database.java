@@ -19,7 +19,9 @@ public class Database {
         db = jdbi.open();
     }
 
-    public void close() throws SQLException {
-        db.close();
+    public static void close() throws SQLException {
+        if (db != null && !db.isClosed()) {
+            db.close();
+        }
     }
 }

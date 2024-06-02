@@ -3,6 +3,7 @@ package com.svalero.tiendaAlimentos.servlet;
 import com.svalero.tiendaAlimentos.dao.UsuarioDao;
 import com.svalero.tiendaAlimentos.dao.Database;
 import com.svalero.tiendaAlimentos.util.Constants;
+import com.svalero.tiendaAlimentos.util.ErrorUtils;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 
@@ -10,6 +11,9 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+
+import static com.svalero.tiendaAlimentos.util.ErrorUtils.sendError;
+import static com.svalero.tiendaAlimentos.util.ErrorUtils.sendMessage;
 
 @WebServlet(name = "EditarUsuario", value = "/EditarUsuario")
 public class EditarUsuario extends HttpServlet {
@@ -43,18 +47,6 @@ public class EditarUsuario extends HttpServlet {
         String preferenciasAlimenticias = request.getParameter("preferencias_alimenticias");
         String rol = request.getParameter("rol");
 
-        // Logging the received parameters for debugging
-        System.out.println("nombre: " + nombre);
-        System.out.println("apellido: " + apellido);
-        System.out.println("nombre_usuario: " + nombreUsuario);
-        System.out.println("contrasena: " + contrasena);
-        System.out.println("email: " + email);
-        System.out.println("genero: " + genero);
-        System.out.println("nivel_actividad: " + nivelActividad);
-        System.out.println("objetivo_salud: " + objetivoSalud);
-        System.out.println("preferencias_alimenticias: " + preferenciasAlimenticias);
-        System.out.println("rol: " + rol);
-
         if (nombre == null || apellido == null || nombreUsuario == null || contrasena == null || email == null || genero == null || nivelActividad == null || objetivoSalud == null || preferenciasAlimenticias == null || rol == null ||
                 nombre.isEmpty() || apellido.isEmpty() || nombreUsuario.isEmpty() || contrasena.isEmpty() || email.isEmpty() || genero.isEmpty() || nivelActividad.isEmpty() || objetivoSalud.isEmpty() || preferenciasAlimenticias.isEmpty() || rol.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -68,11 +60,11 @@ public class EditarUsuario extends HttpServlet {
 
         try {
             int affectedRows = Database.jdbi.withExtension(UsuarioDao.class, dao -> dao.insertUsuario(nombre, apellido, nombreUsuario, contrasena, email, genero, nivelActividad, objetivoSalud, preferenciasAlimenticias, rol));
-            response.getWriter().println("Usuario registrado exitosamente, filas afectadas: " + affectedRows);
+            sendMessage("Usuario registrado exitosamente, filas afectadas: " + affectedRows, response);
         } catch (Exception e) {
             e.printStackTrace();
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().println("Se produjo un error al insertar el usuario: " + e.getMessage());
+            sendError("Se produjo un error al insertar el usuario: ", response);
+            sendError("El correo o el nombre de usuario ya existen ", response);
         }
     }
 }

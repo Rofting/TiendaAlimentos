@@ -11,6 +11,9 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
+import static com.svalero.tiendaAlimentos.util.ErrorUtils.sendError;
+import static com.svalero.tiendaAlimentos.util.ErrorUtils.sendMessage;
+
 @WebServlet(name = "EditarContenidoNutricional", value = "/EditarContenidoNutricional")
 public class EditarContenidoNutricional extends HttpServlet {
 
@@ -43,11 +46,11 @@ public class EditarContenidoNutricional extends HttpServlet {
 
         try {
             int affectedRows = Database.jdbi.withExtension(ContenidoNutricionalDao.class, dao -> dao.insertContenidoNutricional(calorias, proteinas,carbohidratos,grasas));
-            response.getWriter().println("Vitamina inserted successfully, affected rows: " + affectedRows);
+            sendMessage("Contenido nutricional insertado correctamente", response);
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().println("An error occurred while inserting the vitamina: " + e.getMessage());
+            sendError("Hubo un error en agregar el contenido", response);
         }
     }
 }

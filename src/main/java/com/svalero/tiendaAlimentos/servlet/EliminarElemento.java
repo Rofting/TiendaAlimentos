@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import static com.svalero.tiendaAlimentos.util.ErrorUtils.sendError;
+import static com.svalero.tiendaAlimentos.util.ErrorUtils.sendMessage;
+
 @WebServlet("/EliminarElemento")
 public class EliminarElemento extends HttpServlet {
 
@@ -65,10 +68,10 @@ public class EliminarElemento extends HttpServlet {
 
             if (affectedRows > 0) {
                 // Eliminación exitosa, establecer mensaje de éxito
-                request.setAttribute("mensaje", "Elemento eliminado correctamente");
+                sendMessage("Elemento eliminado correctamente",response);
             } else {
                 // Si no se afectaron filas, significa que no se eliminó ningún elemento
-                request.setAttribute("mensaje", "No se encontró el elemento a eliminar");
+                sendError("No se encontró el elemento a eliminar",response);
             }
 
             // Redirigir de nuevo al JSP desde donde se realizó la solicitud

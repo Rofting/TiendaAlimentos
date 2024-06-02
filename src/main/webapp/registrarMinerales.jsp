@@ -3,6 +3,17 @@
 <%@ page import="com.svalero.tiendaAlimentos.dao.Database" %>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@include file="includes/header.jsp"%>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#edit-form").on("submit", function(event) {
+            event.preventDefault();
+            const formValue = $(this).serialize();
+            $.post("EditarMineral", formValue, function(data) {
+                $("#result").html(data);
+            });
+        });
+    });
+</script>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -45,7 +56,7 @@
                     <% } %>
                 </div>
                 <div class="contact-form">
-                    <form class="row g-3 needs-validation" method="post" action="EditarMineral">
+                    <form class="row g-3 needs-validation" method="post" enctype="multipart/form-data" id="edit-form">
                         <% if (id != 0) { %>
                         <input type="hidden" name="id" value="<%= id %>">
                         <% } %>
@@ -65,6 +76,8 @@
                             <% } %>
                         </div>
                     </form>
+                    <br>
+                    <div id="result"></div>
                 </div>
             </div>
         </div>

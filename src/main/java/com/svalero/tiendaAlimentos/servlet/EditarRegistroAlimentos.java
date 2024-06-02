@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.ParseException;
 
+import static com.svalero.tiendaAlimentos.util.ErrorUtils.sendError;
+import static com.svalero.tiendaAlimentos.util.ErrorUtils.sendMessage;
+
 @WebServlet(name = "EditarRegistroAlimentos", value = "/EditarRegistroAlimentos")
 public class EditarRegistroAlimentos extends HttpServlet {
 
@@ -54,11 +57,11 @@ public class EditarRegistroAlimentos extends HttpServlet {
 
         try {
             int affectedRows = Database.jdbi.withExtension(RegistrosConsumoAlimentosDao.class, dao -> dao.insertRegistrosConsumoAlimentos(usuario_id, alimento_id, cantidad_consumida, fecha_consumo));
-            response.getWriter().println("Registro de consumo de alimentos insertado con éxito, filas afectadas: " + affectedRows);
+            sendMessage("Registro de consumo de alimentos insertado con éxito, filas afectadas: ",response);
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().println("Ocurrió un error al insertar el registro de consumo de alimentos: " + e.getMessage());
+            sendError("Ocurrió un error al insertar el registro de consumo de alimentos: " , response);
         }
 
     }
