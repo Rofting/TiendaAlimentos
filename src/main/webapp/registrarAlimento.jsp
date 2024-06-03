@@ -67,35 +67,8 @@
               <input type="text" name="descripcion" class="form-control" id="descripcion" placeholder="Ingrese la descripción del alimento" <% if (id != 0) { %> value="<%= alimento.getDescripcion() %>"<% } %>>
             </div>
             <div class="col-md-6">
-              <label for="categoria_id" class="form-label">Categoría</label>
-              <select name="categoria_id" class="form-select" id="categoria_id" required>
-                <option value="">Seleccione una categoría</option>
-                <option value="1" <% if (id != 0 && alimento.getCategoria_id() == 1) { %> selected <% } %>>Hornada</option>
-                <option value="2" <% if (id != 0 && alimento.getCategoria_id() == 2) { %> selected <% } %>>Alimentos saludables</option>
-                <option value="3" <% if (id != 0 && alimento.getCategoria_id() == 3) { %> selected <% } %>>Especias y condimentos</option>
-                <option value="4" <% if (id != 0 && alimento.getCategoria_id() == 4) { %> selected <% } %>>Pastas y Arroz</option>
-                <option value="5" <% if (id != 0 && alimento.getCategoria_id() == 5) { %> selected <% } %>>Panadería/Pan</option>
-                <option value="6" <% if (id != 0 && alimento.getCategoria_id() == 6) { %> selected <% } %>>Refrigerado</option>
-                <option value="7" <% if (id != 0 && alimento.getCategoria_id() == 7) { %> selected <% } %>>Enlatado y en frasco</option>
-                <option value="8" <% if (id != 0 && alimento.getCategoria_id() == 8) { %> selected <% } %>>Congelado</option>
-                <option value="9" <% if (id != 0 && alimento.getCategoria_id() == 9) { %> selected <% } %>>Mantequillas de frutos secos, mermeladas y miel</option>
-                <option value="10" <% if (id != 0 && alimento.getCategoria_id() == 10) { %> selected <% } %>>Aceite, vinagre, aderezo para ensaladas</option>
-                <option value="11" <% if (id != 0 && alimento.getCategoria_id() == 11) { %> selected <% } %>>Condimentos</option>
-                <option value="12" <% if (id != 0 && alimento.getCategoria_id() == 12) { %> selected <% } %>>Bocadillos salados</option>
-                <option value="13" <% if (id != 0 && alimento.getCategoria_id() == 13) { %> selected <% } %>>Leche, huevos, otros productos lácteos</option>
-                <option value="14" <% if (id != 0 && alimento.getCategoria_id() == 14) { %> selected <% } %>>Comidas étnicas</option>
-                <option value="15" <% if (id != 0 && alimento.getCategoria_id() == 15) { %> selected <% } %>>Té y Café</option>
-                <option value="16" <% if (id != 0 && alimento.getCategoria_id() == 16) { %> selected <% } %>>Carne</option>
-                <option value="17" <% if (id != 0 && alimento.getCategoria_id() == 17) { %> selected <% } %>>Gastrónomo</option>
-                <option value="18" <% if (id != 0 && alimento.getCategoria_id() == 18) { %> selected <% } %>>Bocadillos dulces</option>
-                <option value="19" <% if (id != 0 && alimento.getCategoria_id() == 19) { %> selected <% } %>>Sin gluten</option>
-                <option value="20" <% if (id != 0 && alimento.getCategoria_id() == 20) { %> selected <% } %>>Bebidas alcohólicas</option>
-                <option value="21" <% if (id != 0 && alimento.getCategoria_id() == 21) { %> selected <% } %>>Cereal</option>
-                <option value="22" <% if (id != 0 && alimento.getCategoria_id() == 22) { %> selected <% } %>>Marisco</option>
-                <option value="23" <% if (id != 0 && alimento.getCategoria_id() == 23) { %> selected <% } %>>Queso</option>
-                <option value="24" <% if (id != 0 && alimento.getCategoria_id() == 24) { %> selected <% } %>>Frutos secos</option>
-                <option value="25" <% if (id != 0 && alimento.getCategoria_id() == 25) { %> selected <% } %>>Pan</option>
-              </select>
+              <label for="categoria_id" class="form-label">ID de Categoría</label>
+              <input type="number" name="categoria_id" class="form-control" id="categoria_id" placeholder="Ingrese el ID de categoría" required <% if (id != 0) { %> value="<%= alimento.getCategoria_id() %>"<% } %>>
             </div>
             <div class="col-md-6">
               <label for="contenido_nutricional_id" class="form-label">ID de Contenido Nutricional</label>
@@ -117,8 +90,7 @@
               <% } %>
             </div>
           </form>
-          <br>
-          <div id="result"></div>
+          <div id="result"></div><br>
         </div>
       </div>
 

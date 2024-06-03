@@ -24,6 +24,19 @@ public interface VitaminaDao {
     @SqlUpdate("UPDATE vitaminas SET nombre = :nombre, cantidad = :cantidad WHERE id = :id")
     int updateVitamina(@Bind("nombre") String nombre, @Bind("cantidad") double cantidad, @Bind("id") long id);
 
-    @SqlUpdate("DELETE FROM vitaminas WHERE id = :id")
+    @SqlUpdate("DELETE FROM Vitaminas WHERE id = :id")
     int deleteVitamina(@Bind("id") long id);
+
+    @SqlQuery("SELECT * FROM Vitaminas WHERE nombre LIKE '%' || :nombre || '%'")
+    @UseRowMapper(VitaminasMapper.class)
+    List<Vitaminas> findVitaminasByNombre(@Bind("nombre") String nombre);
+
+    @SqlQuery("SELECT * FROM Vitaminas WHERE cantidad = :cantidad")
+    @UseRowMapper(VitaminasMapper.class)
+    List<Vitaminas> findVitaminasByCantidad(@Bind("cantidad") double cantidad);
+
+    @SqlQuery("SELECT * FROM Vitaminas WHERE nombre LIKE '%' || :nombre || '%' AND cantidad = :cantidad")
+    @UseRowMapper(VitaminasMapper.class)
+    List<Vitaminas> findVitaminasByNombreAndCantidad(@Bind("nombre") String nombre, @Bind("cantidad") double cantidad);
 }
+

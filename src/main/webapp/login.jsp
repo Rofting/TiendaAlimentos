@@ -1,5 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="includes/header.jsp"%>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#edit-form").on("submit", function(event) {
+            event.preventDefault();
+            const formValue = $(this).serialize();
+            $.post("login", formValue, function(data) {
+                $("#result").html(data);
+            });
+        });
+    });
+</script>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -29,7 +40,7 @@
                         <!-- Formulario de inicio de sesión -->
                         <div id="form_status"></div>
                         <div class="contact-form">
-                            <form method="post" action="login">
+                            <form method="post" enctype="multipart/form-data" id="edit-form">
                                 <div class="form-floating">
                                     <label for="floatingInput">Usuario</label>
                                     <input type="text" name="nombre_usuario" class="form-control" id="floatingInput" placeholder="Usuario">
@@ -43,6 +54,9 @@
                                     <a href="registrarUsuario.jsp" class="btn btn-secondary w-100 py-2" type="button">Registrate</a>
                                 </div>
                             </form>
+                            <br>
+                            <div id="result"></div>
+                        </div>
                         </div>
                     </div>
 

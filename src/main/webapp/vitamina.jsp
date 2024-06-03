@@ -15,7 +15,6 @@
 <html lang="en">
 <head>
 	<title>Shop</title>
-
 	<style>
 		.product-buttons a {
 			display: inline-block;
@@ -38,7 +37,6 @@
 			background-color: green;
 		}
 	</style>
-
 </head>
 <body>
 <!-- breadcrumb-section -->
@@ -55,10 +53,13 @@
 	</div>
 </div>
 <!-- end breadcrumb section -->
-<div class="barra-busqueda">
+<div class="container align-content-center">
 	<form class="row g-2" id="search-form" method="GET">
 		<div class="mb-1">
-			<input type="text" class="form-control entrada-busqueda" placeholder="Búsqueda" name="search" id="search-input">
+			<input type="text" class="form-control entrada-busqueda" placeholder="Nombre de la Vitamina" name="nombre" id="nombre-input">
+		</div>
+		<div class="mb-1">
+			<input type="number" class="form-control entrada-busqueda" placeholder="Cantidad" name="cantidad" id="cantidad-input">
 		</div>
 		<div class="col-auto">
 			<button type="submit" class="btn btn-primary mb-3 boton-busqueda" id="search-button">Buscar</button>
@@ -83,9 +84,25 @@
 
 		<div class="row product-lists">
 			<%
-				Database.connect();
-				List<Vitaminas> vitaminas = Database.jdbi.withExtension(VitaminaDao.class, dao -> dao.getAllVitaminas());
-				for (Vitaminas vitamina : vitaminas) {
+				try {
+					Database.connect();
+					String nombre = request.getParameter("nombre");
+					String cantidadParam = request.getParameter("cantidad");
+					double cantidad = cantidadParam != null && !cantidadParam.isEmpty() ? Double.parseDouble(cantidadParam) : -1;
+
+					List<Vitaminas> vitaminas = Database.jdbi.withExtension(VitaminaDao.class, dao -> {
+						if (nombre != null && !nombre.isEmpty() && cantidad > -1) {
+							return dao.findVitaminasByNombreAndCantidad(nombre, cantidad);
+						} else if (nombre != null && !nombre.isEmpty()) {
+							return dao.findVitaminasByNombre(nombre);
+						} else if (cantidad > -1) {
+							return dao.findVitaminasByCantidad(cantidad);
+						} else {
+							return dao.getAllVitaminas();
+						}
+					});
+
+					for (Vitaminas vitamina : vitaminas) {
 			%>
 			<div class="col-lg-4 col-md-6 text-center">
 				<div class="single-product-item">
@@ -100,6 +117,14 @@
 						<a href="single-product.jsp" class="btn-view">Ver</a>
 					</div>
 				</div>
+			</div>
+			<%
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			%>
+			<div class="col-lg-12">
+				<p>Error al cargar las vitaminas.</p>
 			</div>
 			<%
 				}
@@ -143,27 +168,6 @@
 <script src="assets/js/sticker.js"></script>
 <!-- main js -->
 <script src="assets/js/main.js"></script>
-
-<script>
-	function deleteProduct(productId) {
-		// Deshabilitar solo el botón clicado
-		$(".btn-delete").prop("disabled", true);
-
-		$.ajax({
-			type: "GET",
-			url: "remove-products?id_product=" + productId,
-			success: function (data) {
-				// Manejar la respuesta si es necesario
-				$(".btn-delete").prop("disabled", false);
-				// Actualizar la interfaz según sea necesario
-			},
-			error: function (error) {
-				// Manejar el error si es necesario
-				$(".btn-delete").prop("disabled", false);
-			}
-		});
-	}
-</script>
 
 </body>
 </html>

@@ -26,6 +26,22 @@ public interface AlimentoDao {
     @UseRowMapper(AlimentosMapper.class)
     List<Alimentos> getAlimentosByCategoriaId(@Bind("categoria_id") int categoria_id);
 
+    @SqlQuery("SELECT * FROM Alimentos WHERE nombre LIKE '%' || :nombre || '%'")
+    @UseRowMapper(AlimentosMapper.class)
+    List<Alimentos> findAlimentosByNombre(@Bind("nombre") String nombre);
+
+    @SqlQuery("SELECT * FROM Alimentos WHERE nombre LIKE '%' || :nombre || '%' AND precio = :precio")
+    @UseRowMapper(AlimentosMapper.class)
+    List<Alimentos> findAlimentosByNombreAndPrecio(@Bind("nombre") String nombre, @Bind("precio") float precio);
+
+    @SqlQuery("SELECT * FROM Alimentos WHERE precio = :precio")
+    @UseRowMapper(AlimentosMapper.class)
+    List<Alimentos> findAlimentosByPrecio(@Bind("precio") float precio);
+
+    @SqlQuery("SELECT * FROM Alimentos WHERE precio = :precio AND categoria_id = :categoria_id")
+    @UseRowMapper(AlimentosMapper.class)
+    List<Alimentos> findAlimentosByPrecioAndCategoriaId(@Bind("precio") float precio, @Bind("categoria_id") int categoria_id);
+
     @SqlUpdate("INSERT INTO Alimentos (nombre, descripcion, categoria_id, contenido_nutricional_id, imagen, precio) VALUES (:nombre, :descripcion, :categoria_id, :contenido_nutricional_id, :imagen, :precio)")
     int insertAlimento(@Bind("nombre") String nombre, @Bind("descripcion") String descripcion, @Bind("categoria_id") int categoriaId, @Bind("contenido_nutricional_id") int contenidoNutricionalId, @Bind("imagen") String imagen, @Bind("precio") float precio);
 

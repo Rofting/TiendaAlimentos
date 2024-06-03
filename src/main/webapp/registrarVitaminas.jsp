@@ -62,7 +62,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="cantidad" class="form-label">Cantidad</label>
-                            <input type="number" step="0.01" name="cantidad" class="form-control" id="cantidad" placeholder="Ingrese la cantidad" required <% if (vitamina != null) { %> value="<%= vitamina.getCantidad() %>"<% } %>>
+                            <input type="number" step="1" name="cantidad" class="form-control" id="cantidad" placeholder="Ingrese la cantidad" required <% if (vitamina != null) { %> value="<%= vitamina.getCantidad() %>"<% } %>>
                         </div>
                         <div class="col-12">
                             <% if (vitamina == null) { %>

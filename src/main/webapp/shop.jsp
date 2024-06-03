@@ -55,10 +55,13 @@
 	</div>
 </div>
 <!-- end breadcrumb section -->
-<div class="barra-busqueda">
+<div class="container align-content-center">
 	<form class="row g-2" id="search-form" method="GET">
 		<div class="mb-1">
-			<input type="text" class="form-control entrada-busqueda" placeholder="Búsqueda" name="search" id="search-input">
+			<input type="text" class="form-control entrada-busqueda" placeholder="Nombre del Alimento" name="nombre" id="nombre-input">
+		</div>
+		<div class="mb-1">
+			<input type="number" class="form-control entrada-busqueda" placeholder="Precio" name="precio" id="precio-input">
 		</div>
 		<div class="col-auto">
 			<button type="submit" class="btn btn-primary mb-3 boton-busqueda" id="search-button">Buscar</button>
@@ -83,9 +86,25 @@
 
 		<div class="row product-lists">
 			<%
-				Database.connect();
-				List<Alimentos> alimentos = Database.jdbi.withExtension(AlimentoDao.class, dao -> dao.getAllAlimentos());
-				for (Alimentos alimento : alimentos) {
+				try {
+					Database.connect();
+					String nombre = request.getParameter("nombre");
+					String precioParam = request.getParameter("precio");
+					float precio = precioParam != null && !precioParam.isEmpty() ? Float.parseFloat(precioParam) : -1;
+
+					List<Alimentos> alimentos = Database.jdbi.withExtension(AlimentoDao.class, dao -> {
+						if (nombre != null && !nombre.isEmpty() && precio > -1) {
+							return dao.findAlimentosByNombreAndPrecio(nombre, precio);
+						} else if (nombre != null && !nombre.isEmpty()) {
+							return dao.findAlimentosByNombre(nombre);
+						} else if (precio > -1) {
+							return dao.findAlimentosByPrecio(precio);
+						} else {
+							return dao.getAllAlimentos();
+						}
+					});
+
+					for (Alimentos alimento : alimentos) {
 			%>
 			<div class="col-lg-4 col-md-6 text-center">
 				<div class="single-product-item">
@@ -102,6 +121,13 @@
 				</div>
 			</div>
 			<%
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					Database.close();
 				}
 			%>
 		</div>
@@ -146,19 +172,15 @@
 
 <script>
 	function deleteProduct(productId) {
-		// Deshabilitar solo el botón clicado
 		$(".btn-delete").prop("disabled", true);
 
 		$.ajax({
 			type: "GET",
 			url: "remove-products?id_product=" + productId,
 			success: function (data) {
-				// Manejar la respuesta si es necesario
 				$(".btn-delete").prop("disabled", false);
-				// Actualizar la interfaz según sea necesario
 			},
 			error: function (error) {
-				// Manejar el error si es necesario
 				$(".btn-delete").prop("disabled", false);
 			}
 		});

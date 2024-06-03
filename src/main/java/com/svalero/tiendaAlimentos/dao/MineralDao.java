@@ -27,7 +27,17 @@ public interface MineralDao {
     @SqlUpdate("DELETE FROM Minerales WHERE id = :id")
     int deleteMineral(@Bind("id") long id);
 
-    @SqlQuery("SELECT * FROM Minerales WHERE LOWER(nombre) LIKE '%' || LOWER(:nombre) || '%' AND cantidad >= :cantidad")
+    @SqlQuery("SELECT * FROM Minerales WHERE LOWER(nombre) LIKE '%' || LOWER(:nombre) || '%' AND cantidad = :cantidad")
     @UseRowMapper(MineralesMapper.class)
     List<Minerales> findByNombreYCantidad(@Bind("nombre") String nombre, @Bind("cantidad") double cantidad);
+
+    @SqlQuery("SELECT * FROM Minerales WHERE LOWER(nombre) LIKE '%' || LOWER(:nombre) || '%'")
+    @UseRowMapper(MineralesMapper.class)
+    List<Minerales> findByNombre(@Bind("nombre") String nombre);
+
+    @SqlQuery("SELECT * FROM Minerales WHERE cantidad = :cantidad")
+    @UseRowMapper(MineralesMapper.class)
+    List<Minerales> findByCantidad(@Bind("cantidad") double cantidad);
+
+
 }

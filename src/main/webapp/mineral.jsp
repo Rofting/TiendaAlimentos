@@ -45,10 +45,13 @@
 </div>
 <!-- end breadcrumb section -->
 
-<div class="barra-busqueda">
+<div class="container align-content-center">
 	<form class="row g-2" id="search-form" method="GET">
 		<div class="mb-1">
-			<input type="text" class="form-control entrada-busqueda" placeholder="Nombre y cantidad mínima (por ejemplo, 'calcio 5')" name="search" id="search-input">
+			<input type="text" class="form-control entrada-busqueda" placeholder="Nombre de la Vitamina" name="nombre" id="nombre-input">
+		</div>
+		<div class="mb-1">
+			<input type="number" class="form-control entrada-busqueda" placeholder="Cantidad" name="cantidad" id="cantidad-input">
 		</div>
 		<div class="col-auto">
 			<button type="submit" class="btn btn-primary mb-3 boton-busqueda" id="search-button">Buscar</button>
@@ -71,42 +74,28 @@
 				</div>
 			</div>
 		</div>
-		<%
-			String search = request.getParameter("search") != null ? request.getParameter("search") : "";
-			String nombre;
-			double cantidad = 0;
 
-			if (!search.isEmpty()) {
-				String[] searchParams = search.split(" ");
-				if (searchParams.length == 2) {
-					nombre = searchParams[0];
-					try {
-						cantidad = Double.parseDouble(searchParams[1]);
-					} catch (NumberFormatException e) {
-						cantidad = 0; // or handle the error appropriately
-					}
-				} else {
-                    nombre = "";
-                }
-            } else {
-                nombre = "";
-            }
-
-            try {
-				Database.connect();
-				List<Minerales> minerales;
-				if (nombre.isEmpty() && cantidad == 0) {
-					minerales = Database.jdbi.withExtension(MineralDao.class, dao -> dao.getAllMinerales());
-				} else {
-					double finalCantidad = cantidad;
-					minerales = Database.jdbi.withExtension(MineralDao.class, dao -> dao.findByNombreYCantidad(nombre, finalCantidad));
-				}
-
-				if (minerales != null && !minerales.isEmpty()) {
-		%>
 		<div class="row product-lists">
 			<%
-				for (Minerales mineral : minerales) {
+				try {
+					Database.connect();
+					String nombre = request.getParameter("nombre");
+					String cantidadParam = request.getParameter("cantidad");
+					double cantidad = cantidadParam != null && !cantidadParam.isEmpty() ? Double.parseDouble(cantidadParam) : -1;
+
+					List<Minerales> minerales = Database.jdbi.withExtension(MineralDao.class, dao -> {
+						if (nombre != null && !nombre.isEmpty() && cantidad > -1) {
+							return dao.findByNombreYCantidad(nombre, cantidad);
+						} else if (nombre != null && !nombre.isEmpty()) {
+							return dao.findByNombre(nombre);
+						} else if (cantidad > -1) {
+							return dao.findByCantidad(cantidad);
+						} else {
+							return dao.getAllMinerales();
+						}
+					});
+
+					for (Minerales mineral : minerales) {
 			%>
 			<div class="col-lg-4 col-md-6 text-center">
 				<div class="single-product-item">
@@ -124,28 +113,16 @@
 			</div>
 			<%
 				}
-			%>
-		</div>
-		<%
-		} else {
-		%>
-		<div class="row">
-			<div class="col-md-12 text-center">
-				<p>No se encontraron minerales.</p>
-			</div>
-		</div>
-		<%
-				}
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				try {
-					Database.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
+			%>
+			<div class="col-lg-12">
+				<p>Error al cargar los minerales.</p>
+			</div>
+			<%
 				}
-			}
-		%>
+			%>
+		</div>
 		<div class="row">
 			<div class="col-lg-12 text-center">
 				<div class="pagination-wrap">
