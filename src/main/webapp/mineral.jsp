@@ -107,7 +107,7 @@
 					<div class="product-buttons">
 						<a href="EliminarElemento?entidad=mineral&id=<%= mineral.getId() %>" class="btn-delete">Eliminar</a>
 						<a href="registrarMinerales.jsp?id=<%= mineral.getId() %>" class="btn-edit">Editar</a>
-						<a href="single-product.jsp?id=<%= mineral.getId() %>" class="btn-view">Ver</a>
+						<a href="VistaMinerales.jsp?id=<%= mineral.getId() %>" class="btn-view">Ver</a>
 					</div>
 				</div>
 			</div>

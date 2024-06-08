@@ -114,7 +114,7 @@
 					<div class="product-buttons">
 						<a href="EliminarElemento?entidad=vitamina&id=<%= vitamina.getId() %>" class="btn-delete">Eliminar</a>
 						<a href="registrarVitaminas.jsp?id=<%= vitamina.getId() %>" class="btn-edit">Editar</a>
-						<a href="single-product.jsp" class="btn-view">Ver</a>
+						<a href="vistaVitamina.jsp?id=<%= vitamina.getId() %>" class="btn-view">Ver</a>
 					</div>
 				</div>
 			</div>
