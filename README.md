@@ -32,3 +32,6 @@ Visualización de imágenes en el listado y en la vista detallada.
 Funcionalidad con JavaScript (Ajax):
 Uso de Ajax para realizar acciones de forma asíncrona como registrar, eliminar o modificar elementos.
 
+Confirmacion de edicion y borrado
+(Javascript) Pide confirmación antes de realizar cualquier operación de modificación o borrado
+
