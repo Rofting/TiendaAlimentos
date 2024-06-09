@@ -19,12 +19,18 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.svalero.tiendaAlimentos.util.ErrorUtils.sendError;
 import static com.svalero.tiendaAlimentos.util.ErrorUtils.sendMessage;
+
 @MultipartConfig
 @WebServlet(name = "EditarAlimento", value = "/EditarAlimento")
 public class EditarAlimento extends HttpServlet {
+
+    private static final int MAX_STRING_LENGTH = 255;
+    private static final Pattern PRICE_PATTERN = Pattern.compile("\\d+(\\.\\d{1,2})?");
 
     @Override
     public void init() throws ServletException {
@@ -33,7 +39,7 @@ public class EditarAlimento extends HttpServlet {
             try {
                 Class.forName(Constants.DRIVER);
                 Database.jdbi = Jdbi.create(Constants.CONNECTION_STRING, Constants.USERNAME, Constants.PASSWORD);
-                Database.jdbi.installPlugin(new SqlObjectPlugin()); // Registrar el plugin
+                Database.jdbi.installPlugin(new SqlObjectPlugin());
             } catch (ClassNotFoundException e) {
                 throw new ServletException("Database driver not found", e);
             } catch (Exception e) {
@@ -52,39 +58,62 @@ public class EditarAlimento extends HttpServlet {
         String categoriaIdParam = request.getParameter("categoria_id");
         String contenidoNutricionalIdParam = request.getParameter("contenido_nutricional_id");
         Part imagenPart = request.getPart("imagen");
-
-        // Guardar la imagen en disco
-        String imagePath = request.getServletContext().getInitParameter("image-path");
-        String filename = null;
-        if (imagenPart.getSize() == 0) {
-            filename = "no-image.jpg";
-        } else {
-            filename = UUID.randomUUID() + ".jpg";
-            InputStream fileStream = imagenPart.getInputStream();
-            Files.copy(fileStream, Path.of(imagePath + File.separator + filename));
-        }
         String precioParam = request.getParameter("precio");
         String idParam = request.getParameter("id");
 
-        if (Database.jdbi == null) {
-            throw new ServletException("Database connection is not initialized.");
+        // Validar campos
+        if (nombre == null || nombre.length() > MAX_STRING_LENGTH) {
+            sendError("Nombre inválido o demasiado largo.", response);
+            return;
+        }
+        if (descripcion == null || descripcion.length() > MAX_STRING_LENGTH) {
+            sendError("Descripción inválida o demasiado larga.", response);
+            return;
+        }
+        if (categoriaIdParam == null || contenidoNutricionalIdParam == null || precioParam == null) {
+            sendError("Uno o más parámetros numéricos faltan.", response);
+            return;
         }
 
         try {
-            final String finalFilename = filename;
-            if (nombre == null || descripcion == null || categoriaIdParam == null || contenidoNutricionalIdParam == null || precioParam == null) {
-                throw new ServletException("One or more parameters missing.");
-            }
-
             int categoria_id = Integer.parseInt(categoriaIdParam);
             int contenido_nutricional_id = Integer.parseInt(contenidoNutricionalIdParam);
-            float precio = Float.parseFloat(precioParam);
-            int affectedRows;
+            if (categoria_id <= 0 || contenido_nutricional_id <= 0) {
+                sendError("ID de categoría o contenido nutricional debe ser positivo.", response);
+                return;
+            }
 
+            Matcher matcher = PRICE_PATTERN.matcher(precioParam);
+            if (!matcher.matches()) {
+                sendError("Formato de precio incorrecto.", response);
+                return;
+            }
+            float precio = Float.parseFloat(precioParam);
+            if (precio <= 0) {
+                sendError("El precio debe ser positivo.", response);
+                return;
+            }
+
+            String imagePath = request.getServletContext().getInitParameter("image-path");
+            String filename;
+            if (imagenPart.getSize() == 0) {
+                filename = "no-image.jpg";
+            } else {
+                filename = UUID.randomUUID() + ".jpg";
+                InputStream fileStream = imagenPart.getInputStream();
+                Files.copy(fileStream, Path.of(imagePath + File.separator + filename));
+            }
+
+            if (Database.jdbi == null) {
+                throw new ServletException("Database connection is not initialized.");
+            }
+
+            final String finalFilename = filename;
+            int affectedRows;
             if (idParam != null && !idParam.isEmpty()) {
                 // Modificar el alimento existente
                 long id = Long.parseLong(idParam);
-                affectedRows = Database.jdbi.withExtension(AlimentoDao.class, dao -> dao.updateAlimento(nombre, descripcion, categoria_id, contenido_nutricional_id, finalFilename , precio, id));
+                affectedRows = Database.jdbi.withExtension(AlimentoDao.class, dao -> dao.updateAlimento(nombre, descripcion, categoria_id, contenido_nutricional_id, finalFilename, precio, id));
                 sendMessage("Alimento modificado correctamente", response);
             } else {
                 // Insertar nuevo alimento
@@ -108,7 +137,6 @@ public class EditarAlimento extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             sendError("Ha ocurrido un error procesando el alimento.", response);
         }
-
     }
 }
 
