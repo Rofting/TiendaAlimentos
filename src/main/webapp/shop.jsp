@@ -110,7 +110,7 @@
 			<div class="col-lg-4 col-md-6 text-center">
 				<div class="single-product-item">
 					<div class="product-image">
-						<img src="assets/img/products/" alt="">
+						<img src="../products/<%= alimento.getImagen() %>" alt="">
 					</div>
 					<h3><%= alimento.getNombre() %></h3>
 					<p class="product-price"><span><%= alimento.getPrecio() %></span> $</p>
@@ -187,6 +187,6 @@
 		});
 	}
 </script>
-
+<script src="assets/js/confirmations.js"></script>
 </body>
 </html>

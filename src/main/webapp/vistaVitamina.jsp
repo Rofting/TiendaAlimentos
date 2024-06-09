@@ -43,7 +43,7 @@
             %>
             <div class="col-md-5">
                 <div class="single-product-img">
-                    <img src="assets/img/products/product-img-5.jpg" alt="">
+                    <img src="assets/img/products/vitaminas.jpg" alt="">
                 </div>
             </div>
             <div class="col-md-7">

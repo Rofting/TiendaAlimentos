@@ -1,6 +1,7 @@
 package com.svalero.tiendaAlimentos.servlet;
 
 import com.svalero.tiendaAlimentos.dao.Database;
+import com.svalero.tiendaAlimentos.dao.MineralDao;
 import com.svalero.tiendaAlimentos.dao.VitaminaDao;
 import com.svalero.tiendaAlimentos.domain.Vitaminas;
 import com.svalero.tiendaAlimentos.util.Constants;
@@ -36,29 +37,37 @@ public class EditarVitamina extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         String nombre = request.getParameter("nombre");
-        double cantidad = Double.parseDouble(request.getParameter("cantidad"));
-        long id = Long.parseLong(request.getParameter("id"));
+        String cantidadParam = request.getParameter("cantidad");
+        String idParam = request.getParameter("id");
 
         if (Database.jdbi == null) {
             throw new ServletException("Database connection is not initialized.");
         }
 
         try {
+            double cantidad = Double.parseDouble(cantidadParam);
             int affectedRows;
-            if (id == 0) {
-                // Insertar nueva vitamina
-                affectedRows = Database.jdbi.withExtension(VitaminaDao.class, dao -> dao.insertVitamina(nombre, cantidad));
-                sendMessage("Vitamina agregada con exito", response);
-            } else {
-                // Actualizar vitamina existente
+
+            if (idParam != null && !idParam.isEmpty()) {
+                // Modificar el mineral existente
+                long id = Long.parseLong(idParam);
                 affectedRows = Database.jdbi.withExtension(VitaminaDao.class, dao -> dao.updateVitamina(nombre, cantidad, id));
-                sendMessage("Vitamina modificada con exito", response);
+                sendMessage("Vitamina agregado con exito " ,response);
+            } else {
+                // Insertar nuevo mineral
+                affectedRows = Database.jdbi.withExtension(VitaminaDao.class, dao -> dao.insertVitamina(nombre, cantidad));
+                sendMessage("Vitamina insertado con exito " ,response);
             }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            sendError("ID invalido" ,response);
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            sendError("Ha ocurrido un error para realizar la solicitud", response);
+            sendError("An error occurred while processing the Vitamina: " ,response);
         }
     }
 }

@@ -3,13 +3,32 @@
 <%@ page import="com.svalero.tiendaAlimentos.dao.AlimentoDao" %>
 <%@ page import="com.svalero.tiendaAlimentos.domain.Alimentos" %>
 <%@ page import="com.svalero.tiendaAlimentos.dao.Database" %>
-<script type="text/javascript">
-  $(document).ready(function() {
-    $("#edit-form").on("submit", function(event) {
+<script>
+  $(document).ready(function () {
+    $("#edit-button").click(function (event) {
       event.preventDefault();
-      const formValue = $(this).serialize();
-      $.post("EditarAlimento", formValue, function(data) {
-        $("#result").html(data);
+      const form = $("#edit-form")[0];
+      const data = new FormData(form);
+
+      $("#edit-button").prop("disabled", true);
+
+      $.ajax({
+        type: "POST",
+        enctype: "multipart/form-data",
+        url: "EditarAlimento",
+        data: data,
+        processData: false,
+        contentType: false,
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+          $("#result").html(data);
+          $("#edit-button").prop("disabled", false);
+        },
+        error: function (error) {
+          $("#result").html(error.responseText);
+          $("#edit-button").prop("disabled", false);
+        }
       });
     });
   });
@@ -76,11 +95,11 @@
             </div>
             <div class="col-md-6">
               <label for="imagen" class="form-label">URL de la Imagen</label>
-              <input type="text" name="imagen" class="form-control" id="imagen" placeholder="Ingrese la URL de la imagen" <% if (id != 0) { %> value="<%= alimento.getImagen() %>"<% } %>>
+              <input type="file" name="imagen" class="form-control" id="imagen" placeholder="Ingrese una imagen" <% if (id != 0) { %> value="<%= alimento.getImagen() %>"<% } %>>
             </div>
             <div class="col-md-6">
               <label for="precio" class="form-label">Precio</label>
-              <input type="number" step="0.01" name="precio" class="form-control" id="precio" placeholder="Ingrese el precio" required <% if (id != 0) { %> value="<%= alimento.getPrecio() %>"<% } %>>
+              <input type="number" step="1" name="precio" class="form-control" id="precio" placeholder="Ingrese el precio" required <% if (id != 0) { %> value="<%= alimento.getPrecio() %>"<% } %>>
             </div>
             <div class="col-12">
               <% if (id == 0) { %>
